@@ -325,6 +325,14 @@ export const AuthContextProvider = ({ children }) => {
   const handleToggle = () => {
     setIsPopupOpen((prev) => !prev);
   };
+  
+  //function to handle the left sidebar toggle in mobile view, which closes the left sidebar on click of navigation links in mobile view
+  const closeLeftSideBarOnNavigationLinkClick = () => {
+    const isSmallerScreen = window.matchMedia("(max-width: 768px)").matches;
+    if (isSmallerScreen) {
+      handleLeftSideBarToggle();
+    }
+  };
 
   //sending the function at the top level and variable value at the bottom
   let contextValue = {
@@ -337,6 +345,7 @@ export const AuthContextProvider = ({ children }) => {
     checkUser,
     handleLeftSideBarToggle,
     setIsLeftSideBarOpen,
+    closeLeftSideBarOnNavigationLinkClick,
     //variables here
     authToken,
     userData,

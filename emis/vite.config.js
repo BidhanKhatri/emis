@@ -11,6 +11,7 @@ export default defineConfig({
         changeOrigin: true,  // Change the origin of the host header to the target URL
         rewrite: (path) => path.replace(/^\/proxy/, '')  // Remove /proxy from the request URL
       }
-    }
+    },
+    host: '0.0.0.0'
   },
 })

@@ -19,6 +19,8 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import LoadingGif from "../assets/loading-gif.gif";
 import { AuthContext } from "../context/AuthContext"; // Ensure this path is correct
+import { FaUser } from "react-icons/fa";
+import { MdTrendingUp } from "react-icons/md";
 
 ChartJS.register(
   ArcElement,
@@ -309,32 +311,40 @@ const DashboardPage = () => {
         {/* Total Users Card */}
         <Link
           to="/user/list"
-          className="bg-white p-6 rounded-lg shadow-md border-r-2 border-blue-500  justify-between items-center flex-col lg:flex-row"
+          className="bg-white p-6 rounded-lg shadow-md border-r-2 border-blue-500  justify-between items-center flex"
         >
           <div className="flex lg:flex-col gap-4 lg:gap-0">
-            <h3 className="text-sm font-semibold">Total Users</h3>
-            <p className="text-sm font-bold lg:font-3xl">{totalUsers}</p>{" "}
+            <h3 className="text-sm font-semibold flex items-center gap-2">
+              <FaUser className="text-blue-700" /> <span>Total Users</span>
+            </h3>
+            <p className="text-sm font-bold lg:text-3xl">{totalUsers}</p>{" "}
           </div>
           {/* Use totalUsers here */}
           <div>
-            <p className="text-sm text-gray-500">Teachers: {teachersCount}</p>
-            <p className="text-sm text-gray-500">Students: {studentsCount}</p>
+            <p className="text-sm text-gray-500 hidden lg:block">
+              Teachers: {teachersCount}
+            </p>
+            <p className="text-sm text-gray-500 hidden lg:block">
+              Students: {studentsCount}
+            </p>
           </div>
         </Link>
 
         <Link
           to="/list/complaints"
-          className="bg-white p-6 rounded-lg shadow-md border-r-2 border-blue-500  justify-between items-center flex-col lg:flex-row"
+          className="bg-white p-6 rounded-lg shadow-md border-r-2 border-blue-500  justify-between items-center flex"
         >
           <div className="flex lg:flex-col gap-4 lg:gap-0">
-            <h3 className="text-sm font-semibold text-nowrap">
-              Total Complaints
+            <h3 className="text-sm font-semibold text-nowrap flex items-center gap-2">
+              <MdTrendingUp size={20} className="text-blue-700" /> Complaints
             </h3>
-            <p className="text-sm font-bold lg:font-3xl">{totalComplaints}</p>
+            <p className="text-sm font-bold lg:text-3xl">{totalComplaints}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">Solved: {solvedComplaints}</p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 hidden lg:block">
+              Solved: {solvedComplaints}
+            </p>
+            <p className="text-sm text-gray-500 hidden lg:block ">
               Unsolved: {unsolvedComplaints}
             </p>
           </div>

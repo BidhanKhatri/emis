@@ -39,8 +39,12 @@ const Sidebar = () => {
   const [qnaOpen, setQnaOpen] = useState(false);
   const [isPermissionOpen, setIsPermissionOpen] = useState(false);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
-  const { userRole, isLeftSideBarOpen, handleLeftSideBarToggle } =
-    useContext(AuthContext); // Get userRole from context
+  const {
+    userRole,
+    isLeftSideBarOpen,
+    handleLeftSideBarToggle,
+    closeLeftSideBarOnNavigationLinkClick,
+  } = useContext(AuthContext); // Get userRole from context
   console.log(isLeftSideBarOpen);
 
   // Toggle functions
@@ -90,6 +94,7 @@ const Sidebar = () => {
             <Link
               to="/"
               className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+              onClick={closeLeftSideBarOnNavigationLinkClick}
             >
               <FaHome className="mr-3" /> Dashboard
             </Link>
@@ -158,6 +163,7 @@ const Sidebar = () => {
                       <Link
                         to="/create/role"
                         className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <MdPersonAdd className="mr-3" /> Create Role
                       </Link>
@@ -165,6 +171,7 @@ const Sidebar = () => {
                       <Link
                         to="/list-roles"
                         className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <FaUserTag className="mr-3" /> Display Roles
                       </Link>
@@ -198,6 +205,7 @@ const Sidebar = () => {
                       <Link
                         to="/create/permission"
                         className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <MdPersonAdd className="mr-3" /> Create Permission
                       </Link>
@@ -205,6 +213,7 @@ const Sidebar = () => {
                       <Link
                         to="/list/permission"
                         className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <FaUserTag className="mr-3" /> List Permission
                       </Link>
@@ -230,6 +239,7 @@ const Sidebar = () => {
                     <Link
                       to="/create-assignment"
                       className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <MdAddAlert className="mr-3" /> Create Assignment
                     </Link>
@@ -237,6 +247,7 @@ const Sidebar = () => {
                     <Link
                       to="/list-assignment"
                       className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <IoMdAlert className="mr-3" /> Display Assignment
                     </Link>
@@ -260,12 +271,14 @@ const Sidebar = () => {
                     <Link
                       to="/create-notice"
                       className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <MdAddAlert className="mr-3" /> Create Notice
                     </Link>
                     <Link
                       to="/list-notice"
                       className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <IoMdAlert className="mr-3" /> Display Notice
                     </Link>
@@ -281,18 +294,21 @@ const Sidebar = () => {
                 <Link
                   to="/user/list"
                   className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdGroup className="mr-3" /> List Users
                 </Link>
                 <Link
                   to="/list/complaints"
                   className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdFeedback className="mr-3" /> Complaints
                 </Link>
                 <Link
                   to="/create-attendance"
                   className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <FaClipboardList className="mr-3" /> Create Attendance
                 </Link>
@@ -304,6 +320,7 @@ const Sidebar = () => {
                 <Link
                   to="/list-attendance"
                   className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <FaClipboardList className="mr-3" /> Attendance
                 </Link>
@@ -327,6 +344,7 @@ const Sidebar = () => {
                     <Link
                       to="/create-qna"
                       className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <MdAddAlert className="mr-3" /> Create QnA
                     </Link>
@@ -334,6 +352,7 @@ const Sidebar = () => {
                     <Link
                       to="/list-qna"
                       className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <IoMdAlert className="mr-3" /> Display QnA
                     </Link>
