@@ -110,14 +110,14 @@ function ListAllRolesPage() {
   return (
     <>
       <div className="flex">
-        <div className="flex-grow bg-gray-100 min-h-screen">
-          <div className="px-6">
+        <div className="flex-grow bg-gray-100 min-h-screen ">
+          <div className="px-0 lg:px-6">
             <div className="container mx-auto">
               <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="min-w-full table-auto border-collapse border border-gray-200">
                   <thead>
                     <tr className="w-full bg-blue-500 text-white uppercase text-sm leading-normal">
-                      <th className="px-4 py-2 border border-gray-300">
+                      <th className="px-4 py-2 border border-gray-300 lg:text-nowrap">
                         Role ID
                       </th>
                       <th className="px-4 py-2 border border-gray-300">

@@ -24,7 +24,7 @@ export const AuthContextProvider = ({ children }) => {
   );
   const [userRole, setUserRole] = useState("");
   const [userIdLogin, setUserIdLogin] = useState("");
-  const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(true);
+  const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(false);
   const [userName, setUserName] = useState("");
 
   console.log(authToken);
@@ -325,7 +325,7 @@ export const AuthContextProvider = ({ children }) => {
   const handleToggle = () => {
     setIsPopupOpen((prev) => !prev);
   };
-  
+
   //function to handle the left sidebar toggle in mobile view, which closes the left sidebar on click of navigation links in mobile view
   const closeLeftSideBarOnNavigationLinkClick = () => {
     const isSmallerScreen = window.matchMedia("(max-width: 768px)").matches;

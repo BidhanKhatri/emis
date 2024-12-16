@@ -3,7 +3,7 @@ import React from "react";
 function ViewPermissionsPop({ permissionData }) {
   console.log(permissionData);
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center px-4 lg:px-0">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
         <div className="max-h-80 overflow-y-auto">
           {" "}

@@ -75,7 +75,7 @@ const Sidebar = () => {
                 alt="NSC"
                 className="w-12 h-12 mr-3"
               />
-              <div className="leading-none">
+              <div className="leading-none ">
                 <span className="text-2xl font-bold">EMIS</span>
                 <br />
 
@@ -129,12 +129,14 @@ const Sidebar = () => {
                 <Link
                   to="/create-assignment"
                   className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdAddAlert className="mr-3" /> Create Assignment
                 </Link>
                 <Link
                   to="/my-assignment"
                   className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdAddAlert className="mr-3" /> My Assignment
                 </Link>

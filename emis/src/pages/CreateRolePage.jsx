@@ -184,12 +184,12 @@ function CreatePermission() {
   return (
     <div className="flex">
       <div className="flex-grow bg-gray-100 min-h-screen">
-        <div className="px-6">
+        <div className="px-2 lg:px-6 ">
           <div className="container mx-auto ">
             <div>
               <form
                 onSubmit={handleSubmit}
-                className="bg-white max-w-lg mx-auto p-6 rounded-md shadow-md space-y-8"
+                className="bg-white max-w-lg mx-auto p-4 lg:p-6  rounded-md shadow-md space-y-8 mt-24 lg:mt-10"
               >
                 <p className="text-center text-2xl ">Create Role</p>
                 <div>
