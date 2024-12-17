@@ -34,9 +34,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
   const [userID, setUserID] = useState("");
   const [subjectID, setSubjectID] = useState("");
   const toast = useToast();
-  const {
-        userRole
-      } = useContext(AuthContext);
+  const {userRole} = useContext(AuthContext);
   const { authToken } = useContext(AuthContext);
 
   const fetchQnAs = async () => {
@@ -116,7 +114,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         duration: 3000,
         isClosable: true,
       });
-      fetchQnAs(); // Refresh QnAs to reflect changes
+      fetchQnAs(); 
     } catch (error) {
       toast({
         title: "Error Verifying Answer",
@@ -171,35 +169,34 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         },
       };
 
-      // Step 1: Create Question
+     
       const answerResponse = await axios.post(
         `/proxy/roles/community/answers/create/`,
         answerData,
         config
       );
 
-      console.log("Question created:", answerResponse.data);
 
-      // Show success message
+      
       toast({
-        title: "QnA Created",
-        description: "QnA has been created successfully!",
+        title: "Answer Added",
+        description: "Answer has been added successfully!",
         status: "success",
         position: "top-right",
         duration: 3000,
         isClosable: true,
       });
 
-      // Reset fields
+      
       setAnswerName("");
-      // setqid("");
+    
     } catch (error) {
       console.error(
-        "Error creating QnA:",
+        "Error adding answer:",
         error.response?.data || error.message
       );
       toast({
-        title: "Error Creating QnA",
+        title: "Error Adding Answer",
         description:
           error.response?.data?.message ||
           error.message ||
@@ -296,14 +293,13 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         isClosable: true,
       });
 
-      // Update the local state or refetch the QnAs
       setQnas((prevQnAs) =>
         prevQnAs.map((qna) =>
           qna.qid === id ? { ...qna, questionName: editedQuestionName } : qna
         )
       );
 
-      setEditingQnAId(null); // Exit edit mode
+      setEditingQnAId(null); 
     } catch (error) {
       toast({
         title: "Error Updating Question",
@@ -415,7 +411,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
   >
     <Flex alignItems="center">
       <Box flex="1">
-        {/* Conditional Rendering: Edit Mode */}
         {editingQnAId === qna.qid ? (
           <>
             <Input
@@ -440,7 +435,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
           </>
         ) : (
           <>
-            {/* Non-Edit Mode */}
             <Text fontWeight="bold">{qna.questionName}</Text>
             <Text fontSize="sm" color="gray.500">
               {qna.user.username} | {qna.subject.subjectName} |{" "}
@@ -449,7 +443,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
           </>
         )}
 
-        {/* Buttons: Update, Delete, Show/Hide Answers */}
         <HStack mt="2">
           <Button
             size="sm"
@@ -479,7 +472,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
           </Button>
         </HStack>
 
-        {/* Answers Section */}
         <Collapse in={expandedQnAId === qna.qid} animateOpacity>
           <Box mt="4">
             <Text fontWeight="bold">Answers:</Text>
@@ -489,10 +481,9 @@ const [editingQnAId, setEditingQnAId] = useState(null);
               bg="gray.50"
               p="2"
             >
-              {/* Sort and display answers */}
               {qna.answers
                 .sort((a, b) => {
-                  if (a.aid === qna.verifiedAnswerID) return -1; // Verified answer at the top
+                  if (a.aid === qna.verifiedAnswerID) return -1; 
                   if (b.aid === qna.verifiedAnswerID) return 1;
                   return b.vote_count - a.vote_count;
                 })
@@ -571,7 +562,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
                 ))}
             </Box>
 
-            {/* Add New Answer Input */}
             <FormControl mt="4">
               <Input
                 placeholder="Write your answer..."
