@@ -275,6 +275,81 @@ function App() {
       </Routes>
     );
   }
+  function studentComponents() {
+    return (
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/list-notice"
+          element={
+            <PrivateRoute>
+              <ListNoticePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/create-complaint"
+          element={
+            <PrivateRoute>
+              <CreateComplaintsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my-complaint"
+          element={
+            <PrivateRoute>
+              <MyComplaintsPage />
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/edit-profile"
+          element={
+            <PrivateRoute>
+              <EditProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/view-profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/create-qna"
+          element={
+            <PrivateRoute>
+              <CreateQuestionPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/list-qna"
+          element={
+            <PrivateRoute>
+              <DisplayQnAPage />
+            </PrivateRoute>
+          }
+        />
+        
+
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    );
+  }
 
   return (
     <>
@@ -287,9 +362,8 @@ function App() {
               <div className="container mx-auto my-8">
                 {userRole === "Admin" && <>{adminComponents()}</>}
                 {userRole === "Teacher" && <>{teacherComponents()}</>}
-                {userRole === "Student" && (
-                  <h1>This is the student dashboard</h1>
-                )}
+                {userRole === "Student" && <>{studentComponents()}</>
+                }
                 {!userRole && <h1>Invalid role</h1>}
               </div>
             </div>

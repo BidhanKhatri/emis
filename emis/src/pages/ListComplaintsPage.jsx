@@ -169,9 +169,7 @@ const SimpleTable = () => {
                     <th className="px-4 py-2 border border-gray-300">
                       Complaint ID
                     </th>
-                    <th className="px-4 py-2 border border-gray-300">
-                      User ID
-                    </th>
+                    
                     <th className="px-4 py-2 border border-gray-300">Title</th>
                     <th className="px-4 py-2 border border-gray-300">
                       Description
@@ -193,9 +191,7 @@ const SimpleTable = () => {
                       <td className="px-4 py-2 border border-gray-300">
                         {item.complainID}
                       </td>
-                      <td className="px-4 py-2 border border-gray-300">
-                        {item.userID}
-                      </td>
+                     
                       <td className="px-4 py-2 border border-gray-300">
                         {item.title}
                       </td>

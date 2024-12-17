@@ -14,6 +14,8 @@ import {
   Divider,
   useToast,
 } from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
+
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AuthContext } from "../context/AuthContext";
 import LoadingGif from "../assets/loading-gif.gif";
@@ -24,11 +26,15 @@ const DisplayQnAPage = () => {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [answerName, setAnswerName] = useState(""); // State for questionName
+  const [editedQuestionName, setEditedQuestionName] = useState("");
+const [editingQnAId, setEditingQnAId] = useState(null);
+
 
   const [expandedQnAId, setExpandedQnAId] = useState(null);
   const [userID, setUserID] = useState("");
   const [subjectID, setSubjectID] = useState("");
   const toast = useToast();
+  const {userRole} = useContext(AuthContext);
   const { authToken } = useContext(AuthContext);
 
   const fetchQnAs = async () => {
@@ -38,6 +44,7 @@ const DisplayQnAPage = () => {
         Authorization: `Bearer ${authToken.access}`,
       },
     };
+    
 
     try {
       const response = await axios.get(
@@ -89,7 +96,38 @@ const DisplayQnAPage = () => {
       setLoading(false);
     }
   };
-
+  const handleVerifyAnswer = async (qid, aid) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authToken.access}`,
+        "Content-Type": "application/json",
+      },
+    };
+  
+    const payload = { qid, aid };
+  
+    try {
+      await axios.post(`/proxy/roles/community/verifiedAnswerForQuestions/`, payload, config);
+      toast({
+        title: "Answer Verified",
+        description: "The answer has been verified successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      fetchQnAs(); 
+    } catch (error) {
+      toast({
+        title: "Error Verifying Answer",
+        description:
+          error.response?.data?.message || "An error occurred while verifying the answer.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+  
   const handleUpvote = async (qid) => {
     const config = {
       headers: {
@@ -132,35 +170,34 @@ const DisplayQnAPage = () => {
         },
       };
 
-      // Step 1: Create Question
+     
       const answerResponse = await axios.post(
         `/proxy/roles/community/answers/create/`,
         answerData,
         config
       );
 
-      console.log("Question created:", answerResponse.data);
 
-      // Show success message
+      
       toast({
-        title: "QnA Created",
-        description: "QnA has been created successfully!",
+        title: "Answer Added",
+        description: "Answer has been added successfully!",
         status: "success",
         position: "top-right",
         duration: 3000,
         isClosable: true,
       });
 
-      // Reset fields
+      
       setAnswerName("");
-      // setqid("");
+    
     } catch (error) {
       console.error(
-        "Error creating QnA:",
+        "Error adding answer:",
         error.response?.data || error.message
       );
       toast({
-        title: "Error Creating QnA",
+        title: "Error Adding Answer",
         description:
           error.response?.data?.message ||
           error.message ||
@@ -237,7 +274,43 @@ const DisplayQnAPage = () => {
       });
     }
   };
+  const handleUpdateQuestion = async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authToken.access}`,
+        "Content-Type": "application/json",
+      },
+    };
 
+    const payload = { questionName: editedQuestionName };
+
+    try {
+      await axios.put(`/proxy/roles/community/questions/edit/${id}/`, payload, config);
+      toast({
+        title: "Question Updated",
+        description: "The question has been updated successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setQnas((prevQnAs) =>
+        prevQnAs.map((qna) =>
+          qna.qid === id ? { ...qna, questionName: editedQuestionName } : qna
+        )
+      );
+
+      setEditingQnAId(null); 
+    } catch (error) {
+      toast({
+        title: "Error Updating Question",
+        description: error.response?.data?.message || "An error occurred.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
   const filteredQnAs = qnas.filter((qna) =>
     qna.questionName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -245,6 +318,11 @@ const DisplayQnAPage = () => {
   useEffect(() => {
     fetchQnAs();
   }, []);
+
+
+
+
+
 
   if (loading) {
     return (
@@ -257,7 +335,7 @@ const DisplayQnAPage = () => {
 
   return (
     <Box p="6">
-      {/* Flex container for horizontal filtering */}
+      
       <Flex
         mb="4"
         alignItems="center"
@@ -324,109 +402,194 @@ const DisplayQnAPage = () => {
 
       <VStack spacing="4" align="stretch">
         {filteredQnAs.map((qna) => (
-          <Box
-            key={qna.qid}
-            p="4"
-            borderWidth="1px"
-            borderRadius="md"
-            shadow="md"
-            bg="white"
+  <Box
+    key={qna.qid}
+    p="4"
+    borderWidth="1px"
+    borderRadius="md"
+    shadow="md"
+    bg="white"
+  >
+    <Flex alignItems="center">
+      <Box flex="1">
+        {editingQnAId === qna.qid ? (
+          <>
+            <Input
+              value={editedQuestionName}
+              onChange={(e) => setEditedQuestionName(e.target.value)}
+              placeholder="Edit Question Name"
+            />
+            <HStack mt="2">
+              <Button
+                colorScheme="blue"
+                onClick={() => handleUpdateQuestion(qna.qid)}
+              >
+                Save
+              </Button>
+              <Button
+                colorScheme="gray"
+                onClick={() => setEditingQnAId(null)}
+              >
+                Cancel
+              </Button>
+            </HStack>
+          </>
+        ) : (
+          <>
+            <Text fontWeight="bold">{qna.questionName}</Text>
+            <Text fontSize="sm" color="gray.500">
+              {qna.user.username} | {qna.subject.subjectName} |{" "}
+              {new Date(qna.date).toLocaleString()}
+            </Text>
+          </>
+        )}
+
+        <HStack mt="2">
+        
+    <>
+   
+          <Button
+            size="sm"
+            colorScheme="green"
+            onClick={() => {
+              setEditingQnAId(qna.qid);
+              setEditedQuestionName(qna.questionName);
+            }}
           >
-            <Flex alignItems="center">
-              <Box flex="1">
-                <Text fontWeight="bold">{qna.questionName}</Text>
-                <Text fontSize="sm" color="gray.500">
-                  Posted by: {qna.userID} |{" "}
-                  {new Date(qna.date).toLocaleString()}{" "}
-                </Text>
-                <Button
-                  size="sm"
-                  mt="2"
-                  onClick={() =>
-                    setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
-                  }
-                >
-                  {expandedQnAId === qna.qid ? "Hide Answers" : "Show Answers"}
-                </Button>
+            Update
+          </Button>
+          <Button
+            size="sm"
+            colorScheme="red"
+            onClick={() => handleDeleteQnA(qna.qid)}
+          >
+            Delete
+          </Button>
+          </>
+          
+          <Button
+            size="sm"
+            colorScheme="blue"
+            onClick={() =>
+              setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
+            }
+          >
+            {expandedQnAId === qna.qid ? "Hide Answers" : "Show Answers"}
+          </Button>
+        </HStack>
 
-                <Button size="sm" ml="2" mt="2" colorScheme="green">
-                  Update
-                </Button>
-                <Button
-                  size="sm"
-                  ml="2"
-                  mt="2"
-                  colorScheme="red"
-                  onClick={() => handleDeleteQnA(qna.qid)}
-                >
-                  Delete
-                </Button>
-
-                <Collapse in={expandedQnAId === qna.qid} animateOpacity>
-                  <Box mt="4">
-                    <Text fontWeight="bold">Answers:</Text>
-                    <Box
-                      maxHeight="300px" // Set a fixed height for the answers section
-                      overflowY="auto" // Add vertical scrollbar when content overflows
-                      bg="gray.50"
-                      p="2"
-                    >
-                      {qna.answers.map((answer) => (
-                        <Box key={answer.aid} p="2" my="2">
-                          <Flex alignItems="center">
-                            <VStack mr="4">
-                              <IconButton
-                                size="sm"
-                                icon={<ChevronUpIcon />}
-                                onClick={() => handleUpvote(answer.aid)}
-                              />
-                              <Text>{answer.votes}</Text>
-                              <IconButton
-                                size="sm"
-                                icon={<ChevronDownIcon />}
-                                onClick={() => handleDownvote(answer.aid)}
-                              />
-                            </VStack>
-                            <Box flex="1">
-                              <Text>{answer.answerName}</Text>
-                              <Text fontSize="sm" color="gray.500">
-                                Answered by {answer.userID} on{" "}
-                                {new Date(answer.created_at).toLocaleString()}
-                              </Text>
-                            </Box>
-                          </Flex>
-                        </Box>
-                      ))}
-                    </Box>
-
-                    {/* New answer input section */}
-                    <FormControl mt="4">
-                      <Input
-                        placeholder="Write your answer..."
-                        value={answerName}
-                        onChange={(e) => setAnswerName(e.target.value)}
-                        backgroundColor="white"
-                        borderColor="gray.300"
-                        _hover={{ borderColor: "gray.500" }}
-                        _focus={{ borderColor: "teal.500" }}
-                        padding="6"
-                        borderRadius="md"
-                      />
-                      <Button
-                        mt="2"
-                        colorScheme="teal"
-                        onClick={() => handleAddAnswer(qna.qid)} // Pass the QnA ID
-                      >
-                        Add Answer
-                      </Button>
-                    </FormControl>
+        <Collapse in={expandedQnAId === qna.qid} animateOpacity>
+          <Box mt="4">
+            <Text fontWeight="bold">Answers:</Text>
+            <Box
+              maxHeight="300px"
+              overflowY="auto"
+              bg="gray.50"
+              p="2"
+            >
+              {qna.answers
+                .sort((a, b) => {
+                  if (a.aid === qna.verifiedAnswerID) return -1; 
+                  if (b.aid === qna.verifiedAnswerID) return 1;
+                  return b.vote_count - a.vote_count;
+                })
+                .map((answer) => (
+                  <Box
+                    key={answer.aid}
+                    p="2"
+                    my="2"
+                    bg={
+                      qna.verifiedAnswerID === answer.aid
+                        ? "green.50"
+                        : "gray.50"
+                    }
+                    borderRadius="md"
+                  >
+                    <Flex alignItems="center">
+                      <VStack mr="4">
+                        <IconButton
+                          size="sm"
+                          icon={<ChevronUpIcon />}
+                          onClick={() => handleUpvote(answer.aid)}
+                        />
+                        <Text>{answer.vote_count}</Text>
+                        <IconButton
+                          size="sm"
+                          icon={<ChevronDownIcon />}
+                          onClick={() => handleDownvote(answer.aid)}
+                        />
+                      </VStack>
+                      <Box flex="1">
+                        <Text
+                          fontWeight={
+                            qna.verifiedAnswerID === answer.aid
+                              ? "bold"
+                              : "normal"
+                          }
+                          color={
+                            qna.verifiedAnswerID === answer.aid
+                              ? "green.600"
+                              : "black"
+                          }
+                        >
+                          {answer.answerName}
+                        </Text>
+                        <Text fontSize="sm" color="gray.500">
+                          Answered by {answer.user.username} on{" "}
+                          {new Date(answer.created_at).toLocaleString()}
+                        </Text>
+                        {qna.verifiedAnswerID === answer.aid && (
+                          userRole !== "Student" && (
+                            <Text
+                              fontSize="sm"
+                              color="green.600"
+                              mt="1"
+                            >
+                              <strong>Verified</strong> by{" "}
+                              {qna.VerifiedBy.username}
+                            </Text>
+                          )
+                        )}
+                      </Box>
+                      {qna.verifiedAnswerID !== answer.aid && userRole !== "Student" && (
+                        <IconButton
+                          aria-label="Verify Answer"
+                          icon={<CheckIcon />}
+                          colorScheme="green"
+                          size="sm"
+                          onClick={() =>
+                            handleVerifyAnswer(qna.qid, answer.aid)
+                          }
+                          ml="4"
+                        />
+                      )}
+                    </Flex>
                   </Box>
-                </Collapse>
-              </Box>
-            </Flex>
-            <Divider mt="4" />
+                ))}
+            </Box>
+
+            <FormControl mt="4">
+              <Input
+                placeholder="Write your answer..."
+                value={answerName}
+                onChange={(e) => setAnswerName(e.target.value)}
+              />
+              <Button
+                mt="2"
+                colorScheme="teal"
+                onClick={() => handleAddAnswer(qna.qid)}
+              >
+                Add Answer
+              </Button>
+            </FormControl>
           </Box>
-        ))}
+        </Collapse>
+      </Box>
+    </Flex>
+    <Divider mt="4" />
+  </Box>
+))}
+
       </VStack>
     </Box>
   );

@@ -122,67 +122,80 @@ const ListAllUser = () => {
     setToggleUpdate(!toggleUpdate);
     setDefaultFormData({ userId, userUsername, userEmail, userRole_id });
   };
-
-  const handleDelete = async (userId) => {
+  const handleDeactivate = async (userId) => {
     toast({
-      title: "Confirm Delete",
-      description: "Are you sure you want to Delete?",
+      title: "Confirm Deactivate",
+      description: "Are you sure you want to deactivate this user?",
       status: "warning",
-      duration: 3000,
+      duration: null, 
       position: "top-right",
-      isClosable: true,
+      isClosable: false,
       render: () => (
         <Box
           color="black"
           p={3}
-          className="bg-white flex flex-col items-center justify-center border border-gray-300/80"
+          bg="white"
           borderRadius="md"
+          border="1px solid gray"
+          textAlign="center"
           mt={16}
         >
-          <Text fontWeight="bold">Confirm Delete!</Text>
-          <Text>Are you sure you want to Delete?</Text>
-          <Box>
+          <Text fontWeight="bold" mb={2}>
+            Confirm Deactivation
+          </Text>
+          <Text>Are you sure you want to deactivate this user?</Text>
+          <Box mt={4}>
             <Button
-              mt={3}
               colorScheme="red"
+              mr={3}
               onClick={async () => {
                 try {
-                  // const newToken = JSON.parse(localStorage.getItem("newToken"));
                   const config = {
                     headers: {
                       Authorization: `Bearer ${authToken.access}`,
                     },
                   };
-                  await axios.delete(`/proxy/user/delete/${userId}/`, config);
+  
+                  // Make the API call to deactivate the user
+                  await axios.patch(
+                    `/proxy/user/deactivate_user/${userId}/`,
+                    { is_active: 0 }, // Ensure backend accepts this format
+                    config
+                  );
+  
+                  // Update the user list locally
                   setUsers(users.filter((user) => user.id !== userId));
+  
                   toast({
-                    title: "User deleted",
+                    title: "User deactivated",
+                    description: `User with ID ${userId} has been successfully deactivated.`,
                     status: "success",
                     duration: 3000,
                     position: "top-right",
                     isClosable: true,
                   });
                 } catch (error) {
-                  console.error("Error deleting user:", error);
+                  console.error("Error deactivating user:", error);
                   toast({
-                    title: "Error deleting user",
+                    title: "Error deactivating user",
+                    description:
+                      error.response?.data?.message ||
+                      "An unexpected error occurred.",
                     status: "error",
                     duration: 3000,
                     position: "top-right",
                     isClosable: true,
                   });
+                } finally {
+                  toast.closeAll(); 
                 }
-                toast.closeAll(); // Close all toasts if user confirms
               }}
             >
-              Delete
+              Confirm
             </Button>
             <Button
-              mt={3}
-              ml={2}
-              onClick={() => {
-                toast.closeAll(); // Just close the toast if user cancels
-              }}
+              variant="outline"
+              onClick={() => toast.closeAll()} 
             >
               Cancel
             </Button>
@@ -191,6 +204,7 @@ const ListAllUser = () => {
       ),
     });
   };
+  
 
   // Add a function to filter users
   const filteredUsers = users.filter((user) => {
@@ -254,6 +268,9 @@ const ListAllUser = () => {
                     </th>
                     <th className="px-4 py-2 border border-gray-300">Email</th>
                     <th className="px-4 py-2 border border-gray-300">
+                      Status
+                    </th>
+                    <th className="px-4 py-2 border border-gray-300">
                       Actions
                     </th>
                   </tr>
@@ -274,6 +291,9 @@ const ListAllUser = () => {
                         <td className="px-4 py-2 border border-gray-300">
                           {user.email}
                         </td>
+                        <td className="px-4 py-2 border border-gray-300">
+                          N/A
+                        </td>
                         <td className="px-4 py-2 border border-gray-300 flex justify-center items-center">
                           <button
                             onClick={() =>
@@ -289,10 +309,10 @@ const ListAllUser = () => {
                             Update
                           </button>
                           <button
-                            onClick={() => handleDelete(user.id)}
+                            onClick={() => handleDeactivate(user.id)}
                             className="bg-red-500 text-white px-2 py-1 rounded"
                           >
-                            Delete
+                            Deactivate
                           </button>
                         </td>
                       </tr>
