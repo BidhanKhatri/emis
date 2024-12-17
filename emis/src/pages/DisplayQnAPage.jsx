@@ -35,6 +35,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
   const [subjectID, setSubjectID] = useState("");
   const toast = useToast();
   const {userRole} = useContext(AuthContext);
+  const {userIdLogin} = useContext(AuthContext);
   const { authToken } = useContext(AuthContext);
 
   const fetchQnAs = async () => {
@@ -44,6 +45,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         Authorization: `Bearer ${authToken.access}`,
       },
     };
+    
     
 
     try {
@@ -445,7 +447,8 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         )}
 
         <HStack mt="2">
-        
+        {qna.user.id === userIdLogin && (
+    
     <>
    
           <Button
@@ -466,6 +469,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
             Delete
           </Button>
           </>
+        )}
           
           <Button
             size="sm"
