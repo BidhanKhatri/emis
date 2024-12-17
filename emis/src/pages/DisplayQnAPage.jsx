@@ -324,112 +324,116 @@ const DisplayQnAPage = () => {
 
       <VStack spacing="4" align="stretch">
         {filteredQnAs.map((qna) => (
-          <Box
-            key={qna.qid}
-            p="4"
-            borderWidth="1px"
-            borderRadius="md"
-            shadow="md"
-            bg="white"
-          >
-            <Flex alignItems="center">
-              <Box flex="1">
-                <Text fontWeight="bold">{qna.questionName}</Text>
-                <Text fontSize="sm" color="gray.500">
-                {qna.user.username} {" "} | {" "} 
-                  {qna.subject.subjectName} {" "} | {" "} 
-                  {new Date(qna.date).toLocaleString()}{" "}
-                </Text>
-                <Button
-                  size="sm"
-                  mt="2"
-                  onClick={() =>
-                    setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
-                  }
-                >
-                  {expandedQnAId === qna.qid ? "Hide Answers" : "Show Answers"}
-                </Button>
-
-                <Button size="sm" ml="2" mt="2" colorScheme="green">
-                  Update
-                </Button>
-                <Button
-                  size="sm"
-                  ml="2"
-                  mt="2"
-                  colorScheme="red"
-                  onClick={() => handleDeleteQnA(qna.qid)}
-                >
-                  Delete
-                </Button>
-
-                <Collapse in={expandedQnAId === qna.qid} animateOpacity>
-                  <Box mt="4">
-                    <Text fontWeight="bold">Answers:</Text>
-                    <Box
-                      maxHeight="300px" // Set a fixed height for the answers section
-                      overflowY="auto" // Add vertical scrollbar when content overflows
-                      bg="gray.50"
-                      p="2"
-                    >
-                      {qna.answers.map((answer) => (
-                        <Box key={answer.aid} p="2" my="2">
-                          <Flex alignItems="center">
-                            <VStack mr="4">
-                              <IconButton
-                                size="sm"
-                                icon={<ChevronUpIcon />}
-                                onClick={() => handleUpvote(answer.aid)}
-                              />
-                              <Text>{answer.votes}</Text>
-                              <IconButton
-                                size="sm"
-                                icon={<ChevronDownIcon />}
-                                onClick={() => handleDownvote(answer.aid)}
-                              />
-                            </VStack>
-                            <Box flex="1">
-                              <Text>{answer.answerName}</Text>
-                              <Text fontSize="sm" color="gray.500">
-                              Answered by {answer.user.username} on{" "}
-                                {new Date(answer.created_at).toLocaleString()}
-                              </Text>
-                              <Text fontSize="sm" color="gray.500">
-                                Total vote: {answer.vote_count} 
-                              </Text>
-                            </Box>
-                          </Flex>
-                        </Box>
-                      ))}
-                    </Box>
-
-                    {/* New answer input section */}
-                    <FormControl mt="4">
-                      <Input
-                        placeholder="Write your answer..."
-                        value={answerName}
-                        onChange={(e) => setAnswerName(e.target.value)}
-                        backgroundColor="white"
-                        borderColor="gray.300"
-                        _hover={{ borderColor: "gray.500" }}
-                        _focus={{ borderColor: "teal.500" }}
-                        padding="6"
-                        borderRadius="md"
-                      />
-                      <Button
-                        mt="2"
-                        colorScheme="teal"
-                        onClick={() => handleAddAnswer(qna.qid)} // Pass the QnA ID
-                      >
-                        Add Answer
-                      </Button>
-                    </FormControl>
-                  </Box>
-                </Collapse>
-              </Box>
-            </Flex>
-            <Divider mt="4" />
-          </Box>
+         <Box
+         key={qna.qid}
+         p="4"
+         borderWidth="1px"
+         borderRadius="md"
+         shadow="md"
+         bg="white"
+       >
+         <Flex alignItems="center">
+           <Box flex="1">
+             <Text fontWeight="bold">{qna.questionName}</Text>
+             <Text fontSize="sm" color="gray.500">
+               {qna.user.username} {" "} | {" "} 
+               {qna.subject.subjectName} {" "} | {" "} 
+               {new Date(qna.date).toLocaleString()}{" "}
+             </Text>
+             <Button
+               size="sm"
+               mt="2"
+               onClick={() =>
+                 setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
+               }
+             >
+               {expandedQnAId === qna.qid ? "Hide Answers" : "Show Answers"}
+             </Button>
+       
+             <Button size="sm" ml="2" mt="2" colorScheme="green">
+               Update
+             </Button>
+             <Button
+               size="sm"
+               ml="2"
+               mt="2"
+               colorScheme="red"
+               onClick={() => handleDeleteQnA(qna.qid)}
+             >
+               Delete
+             </Button>
+       
+             <Collapse in={expandedQnAId === qna.qid} animateOpacity>
+               <Box mt="4">
+                 <Text fontWeight="bold">Answers:</Text>
+                 <Box
+                   maxHeight="300px" // Set a fixed height for the answers section
+                   overflowY="auto" // Add vertical scrollbar when content overflows
+                   bg="gray.50"
+                   p="2"
+                 >
+                   {/* Sort answers by vote count in descending order */}
+                   {qna.answers
+                     .sort((a, b) => b.vote_count - a.vote_count) // Sorting answers by vote_count
+                     .map((answer) => (
+                       <Box key={answer.aid} p="2" my="2">
+                         <Flex alignItems="center">
+                           <VStack mr="4">
+                             <IconButton
+                               size="sm"
+                               icon={<ChevronUpIcon />}
+                               onClick={() => handleUpvote(answer.aid)}
+                             />
+                             <Text>{answer.votes}</Text>
+                             <IconButton
+                               size="sm"
+                               icon={<ChevronDownIcon />}
+                               onClick={() => handleDownvote(answer.aid)}
+                             />
+                           </VStack>
+                           <Box flex="1">
+                             <Text>{answer.answerName}</Text>
+                             <Text fontSize="sm" color="gray.500">
+                               Answered by {answer.user.username} on{" "}
+                               {new Date(answer.created_at).toLocaleString()}
+                             </Text>
+                             <Text fontSize="sm" color="gray.500">
+                               Total vote: {answer.vote_count} 
+                             </Text>
+                           </Box>
+                         </Flex>
+                       </Box>
+                     ))}
+                 </Box>
+       
+                 {/* New answer input section */}
+                 <FormControl mt="4">
+                   <Input
+                     placeholder="Write your answer..."
+                     value={answerName}
+                     onChange={(e) => setAnswerName(e.target.value)}
+                     backgroundColor="white"
+                     borderColor="gray.300"
+                     _hover={{ borderColor: "gray.500" }}
+                     _focus={{ borderColor: "teal.500" }}
+                     padding="6"
+                     borderRadius="md"
+                   />
+                   <Button
+                     mt="2"
+                     colorScheme="teal"
+                     onClick={() => handleAddAnswer(qna.qid)} // Pass the QnA ID
+                   >
+                     Add Answer
+                   </Button>
+                 </FormControl>
+               </Box>
+             </Collapse>
+           </Box>
+         </Flex>
+         <Divider mt="4" />
+       </Box>
+       
         ))}
       </VStack>
     </Box>
