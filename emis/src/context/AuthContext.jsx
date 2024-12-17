@@ -10,7 +10,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const toast = useToast();
   const navigate = useNavigate();
- 
+
   //state handler
   const [authToken, setAuthToken] = useState(
     localStorage.getItem("authToken")
@@ -24,17 +24,26 @@ export const AuthContextProvider = ({ children }) => {
   );
   const [userRole, setUserRole] = useState("");
   const [userIdLogin, setUserIdLogin] = useState("");
-  const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(false);
+  const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(null);
   const [userName, setUserName] = useState("");
-  const [userIDD, setUserIDD] = useState("");
- //token cha bhani update natra redirect
- useEffect(() => {
-  if (authToken) {
-    updateToken(); 
-  } else {
-    navigate("/login"); 
-  }
-}, []);
+
+  //logic to turn off the dash board in smaller device and turn on the side bar in larger device
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setIsLeftSideBarOpen(false);
+      } else {
+        setIsLeftSideBarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return window.removeEventListener("resize", handleResize);
+  }, []);
+
   console.log(authToken);
   // function for handleLogin
   async function handleLogin(email, password) {
@@ -310,7 +319,7 @@ export const AuthContextProvider = ({ children }) => {
         // console.log(result.data.role);
         setUserRole(result.data.role);
         setUserName(result.data.profile.username);
-        setUserIDD(result.data.userId);
+        setUserIdLogin(result.data.profile.userID);
         console.log(result.data.role);
       }
     } catch (err) {
@@ -362,7 +371,6 @@ export const AuthContextProvider = ({ children }) => {
     userIdLogin,
     isLeftSideBarOpen,
     userName,
-    userIDD,
   };
 
   return (
