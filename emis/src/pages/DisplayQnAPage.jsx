@@ -336,7 +336,8 @@ const DisplayQnAPage = () => {
               <Box flex="1">
                 <Text fontWeight="bold">{qna.questionName}</Text>
                 <Text fontSize="sm" color="gray.500">
-                  Posted by: {qna.userID} |{" "}
+                {qna.user.username} {" "} | {" "} 
+                  {qna.subject.subjectName} {" "} | {" "} 
                   {new Date(qna.date).toLocaleString()}{" "}
                 </Text>
                 <Button
@@ -390,8 +391,11 @@ const DisplayQnAPage = () => {
                             <Box flex="1">
                               <Text>{answer.answerName}</Text>
                               <Text fontSize="sm" color="gray.500">
-                                Answered by {answer.userID} on{" "}
+                              Answered by {answer.user.username} on{" "}
                                 {new Date(answer.created_at).toLocaleString()}
+                              </Text>
+                              <Text fontSize="sm" color="gray.500">
+                                Total vote: {answer.vote_count} 
                               </Text>
                             </Box>
                           </Flex>
