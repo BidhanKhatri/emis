@@ -26,7 +26,14 @@ export const AuthContextProvider = ({ children }) => {
   const [userIdLogin, setUserIdLogin] = useState("");
   const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(false);
   const [userName, setUserName] = useState("");
-
+ //token cha bhani update natra redirect
+ useEffect(() => {
+  if (authToken) {
+    updateToken(); 
+  } else {
+    navigate("/login"); 
+  }
+}, []);
   console.log(authToken);
   // function for handleLogin
   async function handleLogin(email, password) {
