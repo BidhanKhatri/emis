@@ -449,10 +449,9 @@ const DisplayQnAPage = () => {
             Answered by {answer.user.username} on{" "}
             {new Date(answer.created_at).toLocaleString()}
           </Text>
-          <Text fontSize="sm" color="gray.500">
-            Total votes: {answer.vote_count}
-          </Text>
+          
           {qna.verifiedAnswerID === answer.aid && (
+            authToken.role !== "Student" &&
             <Text fontSize="sm" color="green.600" mt="1">
               <strong>Verified</strong> by {qna.VerifiedBy.username}
             </Text>

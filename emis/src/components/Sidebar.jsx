@@ -98,6 +98,39 @@ const Sidebar = () => {
             >
               <FaHome className="mr-3" /> Dashboard
             </Link>
+            {/* QnA Section */}
+            <button
+                  onClick={handleQnaToggle}
+                  className="flex items-center justify-between hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                >
+                  <div className="flex items-center">
+                    <FaClipboardList className="mr-3" /> QnA
+                  </div>
+                  {qnaOpen ? (
+                    <MdArrowDropUp className="text-xl" />
+                  ) : (
+                    <MdArrowDropDown className="text-xl" />
+                  )}
+                </button>
+                {qnaOpen && (
+                  <div className="flex flex-col space-y-2 pl-8 mt-2">
+                    <Link
+                      to="/create-qna"
+                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
+                    >
+                      <MdAddAlert className="mr-3" /> Create QnA
+                    </Link>
+
+                    <Link
+                      to="/list-qna"
+                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      onClick={closeLeftSideBarOnNavigationLinkClick}
+                    >
+                      <IoMdAlert className="mr-3" /> Display QnA
+                    </Link>
+                  </div>
+                )}
 
             {/* Links for Teacher and Student Roles */}
             {["Teacher", "Student"].includes(userRole) && (
@@ -327,39 +360,7 @@ const Sidebar = () => {
                   <FaClipboardList className="mr-3" /> Attendance
                 </Link>
 
-                {/* QnA Section */}
-                <button
-                  onClick={handleQnaToggle}
-                  className="flex items-center justify-between hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
-                >
-                  <div className="flex items-center">
-                    <FaClipboardList className="mr-3" /> QnA
-                  </div>
-                  {qnaOpen ? (
-                    <MdArrowDropUp className="text-xl" />
-                  ) : (
-                    <MdArrowDropDown className="text-xl" />
-                  )}
-                </button>
-                {qnaOpen && (
-                  <div className="flex flex-col space-y-2 pl-8 mt-2">
-                    <Link
-                      to="/create-qna"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
-                      onClick={closeLeftSideBarOnNavigationLinkClick}
-                    >
-                      <MdAddAlert className="mr-3" /> Create QnA
-                    </Link>
-
-                    <Link
-                      to="/list-qna"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
-                      onClick={closeLeftSideBarOnNavigationLinkClick}
-                    >
-                      <IoMdAlert className="mr-3" /> Display QnA
-                    </Link>
-                  </div>
-                )}
+                
               </>
             )}
             <button
