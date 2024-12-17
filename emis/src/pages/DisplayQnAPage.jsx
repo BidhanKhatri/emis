@@ -31,6 +31,9 @@ const DisplayQnAPage = () => {
   const [userID, setUserID] = useState("");
   const [subjectID, setSubjectID] = useState("");
   const toast = useToast();
+  const {
+        userRole
+      } = useContext(AuthContext);
   const { authToken } = useContext(AuthContext);
 
   const fetchQnAs = async () => {
@@ -458,6 +461,7 @@ const DisplayQnAPage = () => {
           )}
         </Box>
         {qna.verifiedAnswerID !== answer.aid && (
+          userRole !== "Student" &&
           <IconButton
             aria-label="Verify Answer"
             icon={<CheckIcon />}
