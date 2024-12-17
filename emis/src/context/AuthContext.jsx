@@ -24,8 +24,25 @@ export const AuthContextProvider = ({ children }) => {
   );
   const [userRole, setUserRole] = useState("");
   const [userIdLogin, setUserIdLogin] = useState("");
-  const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(false);
+  const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(null);
   const [userName, setUserName] = useState("");
+
+  //logic to turn off the dash board in smaller device and turn on the side bar in larger device
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setIsLeftSideBarOpen(false);
+      } else {
+        setIsLeftSideBarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return window.removeEventListener("resize", handleResize);
+  }, []);
 
   console.log(authToken);
   // function for handleLogin
@@ -302,6 +319,7 @@ export const AuthContextProvider = ({ children }) => {
         // console.log(result.data.role);
         setUserRole(result.data.role);
         setUserName(result.data.profile.username);
+        setUserIdLogin(result.data.profile.userID);
         console.log(result.data.role);
       }
     } catch (err) {
