@@ -128,7 +128,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
     }
   };
   
-  const handleUpvote = async (qid) => {
+  const handleUpvote = async (aid) => {
     const config = {
       headers: {
         Authorization: `Bearer ${authToken.access}`,
@@ -136,7 +136,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
       },
     };
 
-    const payload = { qid: qid, vote: 1 };
+    const payload = { aid: aid, vote: 1 };
 
     try {
       await axios.post(`/proxy/roles/community/scoreSection/`, payload, config);

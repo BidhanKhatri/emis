@@ -10,7 +10,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const toast = useToast();
   const navigate = useNavigate();
-
+ 
   //state handler
   const [authToken, setAuthToken] = useState(
     localStorage.getItem("authToken")
@@ -26,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
   const [userIdLogin, setUserIdLogin] = useState("");
   const [isLeftSideBarOpen, setIsLeftSideBarOpen] = useState(false);
   const [userName, setUserName] = useState("");
+  const [userIDD, setUserIDD] = useState("");
  //token cha bhani update natra redirect
  useEffect(() => {
   if (authToken) {
@@ -309,6 +310,7 @@ export const AuthContextProvider = ({ children }) => {
         // console.log(result.data.role);
         setUserRole(result.data.role);
         setUserName(result.data.profile.username);
+        setUserIDD(result.data.userId);
         console.log(result.data.role);
       }
     } catch (err) {
@@ -360,6 +362,7 @@ export const AuthContextProvider = ({ children }) => {
     userIdLogin,
     isLeftSideBarOpen,
     userName,
+    userIDD,
   };
 
   return (

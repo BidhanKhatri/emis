@@ -74,7 +74,7 @@ function LoginPage() {
           <div>
             <label
               htmlFor="password"
-              className="text-sm font-medium text-white lg: text-gray-600 mb-1"
+              className="text-sm font-medium text-white lg: mb-1"
             >
               Password
             </label>
