@@ -14,6 +14,8 @@ import {
   Divider,
   useToast,
 } from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
+
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AuthContext } from "../context/AuthContext";
 import LoadingGif from "../assets/loading-gif.gif";
@@ -89,7 +91,38 @@ const DisplayQnAPage = () => {
       setLoading(false);
     }
   };
-
+  const handleVerifyAnswer = async (qid, aid) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authToken.access}`,
+        "Content-Type": "application/json",
+      },
+    };
+  
+    const payload = { qid, aid };
+  
+    try {
+      await axios.post(`/proxy/roles/community/verifiedAnswerForQuestions/`, payload, config);
+      toast({
+        title: "Answer Verified",
+        description: "The answer has been verified successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      fetchQnAs(); // Refresh QnAs to reflect changes
+    } catch (error) {
+      toast({
+        title: "Error Verifying Answer",
+        description:
+          error.response?.data?.message || "An error occurred while verifying the answer.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+  
   const handleUpvote = async (qid) => {
     const config = {
       headers: {
@@ -257,7 +290,7 @@ const DisplayQnAPage = () => {
 
   return (
     <Box p="6">
-      {/* Flex container for horizontal filtering */}
+      
       <Flex
         mb="4"
         alignItems="center"
@@ -367,46 +400,82 @@ const DisplayQnAPage = () => {
                <Box mt="4">
                  <Text fontWeight="bold">Answers:</Text>
                  <Box
-                   maxHeight="300px" // Set a fixed height for the answers section
-                   overflowY="auto" // Add vertical scrollbar when content overflows
+                   maxHeight="300px"
+                   overflowY="auto" 
                    bg="gray.50"
                    p="2"
                  >
-                   {/* Sort answers by vote count in descending order */}
+                   {}
                    {qna.answers
-                     .sort((a, b) => b.vote_count - a.vote_count) // Sorting answers by vote_count
-                     .map((answer) => (
-                       <Box key={answer.aid} p="2" my="2">
-                         <Flex alignItems="center">
-                           <VStack mr="4">
-                             <IconButton
-                               size="sm"
-                               icon={<ChevronUpIcon />}
-                               onClick={() => handleUpvote(answer.aid)}
-                             />
-                             <Text>{answer.votes}</Text>
-                             <IconButton
-                               size="sm"
-                               icon={<ChevronDownIcon />}
-                               onClick={() => handleDownvote(answer.aid)}
-                             />
-                           </VStack>
-                           <Box flex="1">
-                             <Text>{answer.answerName}</Text>
-                             <Text fontSize="sm" color="gray.500">
-                               Answered by {answer.user.username} on{" "}
-                               {new Date(answer.created_at).toLocaleString()}
-                             </Text>
-                             <Text fontSize="sm" color="gray.500">
-                               Total vote: {answer.vote_count} 
-                             </Text>
-                           </Box>
-                         </Flex>
-                       </Box>
-                     ))}
+  .sort((a, b) => {
+    if (a.aid === qna.verifiedAnswerID) return -1; // Verified answer goes to the top
+    if (b.aid === qna.verifiedAnswerID) return 1;
+    return b.vote_count - a.vote_count; // Sort remaining answers by vote count
+  })
+  .map((answer) => (
+    <Box
+      key={answer.aid}
+      p="2"
+      my="2"
+      bg={qna.verifiedAnswerID === answer.aid ? "green.50" : "gray.50"}
+      borderRadius="md"
+    >
+      <Flex alignItems="center">
+        <VStack mr="4">
+          <IconButton
+            size="sm"
+            icon={<ChevronUpIcon />}
+            onClick={() => handleUpvote(answer.aid)}
+          />
+          <Text>{answer.vote_count}</Text>
+          <IconButton
+            size="sm"
+            icon={<ChevronDownIcon />}
+            onClick={() => handleDownvote(answer.aid)}
+          />
+        </VStack>
+        <Box flex="1">
+          <Text
+            fontWeight={
+              qna.verifiedAnswerID === answer.aid ? "bold" : "normal"
+            }
+            color={
+              qna.verifiedAnswerID === answer.aid ? "green.600" : "black"
+            }
+          >
+            {answer.answerName}
+          </Text>
+          <Text fontSize="sm" color="gray.500">
+            Answered by {answer.user.username} on{" "}
+            {new Date(answer.created_at).toLocaleString()}
+          </Text>
+          <Text fontSize="sm" color="gray.500">
+            Total votes: {answer.vote_count}
+          </Text>
+          {qna.verifiedAnswerID === answer.aid && (
+            <Text fontSize="sm" color="green.600" mt="1">
+              <strong>Verified</strong> by {qna.VerifiedBy.username}
+            </Text>
+          )}
+        </Box>
+        {qna.verifiedAnswerID !== answer.aid && (
+          <IconButton
+            aria-label="Verify Answer"
+            icon={<CheckIcon />}
+            colorScheme="green"
+            size="sm"
+            onClick={() => handleVerifyAnswer(qna.qid, answer.aid)}
+            ml="4"
+          />
+        )}
+      </Flex>
+    </Box>
+  ))}
+
+
                  </Box>
        
-                 {/* New answer input section */}
+                 
                  <FormControl mt="4">
                    <Input
                      placeholder="Write your answer..."
