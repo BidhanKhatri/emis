@@ -44,6 +44,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         Authorization: `Bearer ${authToken.access}`,
       },
     };
+    
 
     try {
       const response = await axios.get(
@@ -444,6 +445,9 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         )}
 
         <HStack mt="2">
+        
+    <>
+   
           <Button
             size="sm"
             colorScheme="green"
@@ -461,9 +465,11 @@ const [editingQnAId, setEditingQnAId] = useState(null);
           >
             Delete
           </Button>
+          </>
+          
           <Button
             size="sm"
-            colorScheme="teal"
+            colorScheme="blue"
             onClick={() =>
               setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
             }
