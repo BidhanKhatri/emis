@@ -36,6 +36,29 @@
             Informed, Connected, and Engaged!
           </div>
 
+<<<<<<< HEAD
+          <div>
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-white lg: mb-1"
+            >
+              Password
+            </label>
+            <div className="relative flex items-center">
+              <FiLock className="absolute left-3 text-gray-500" />
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="w-full h-12 py-2 pl-10 pr-10 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                required
+              />
+              <div
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 text-gray-500 cursor-pointer"
+=======
           <img
             src={footerImage}
             alt="EMIS illustration"
@@ -60,6 +83,7 @@
               <label
                 htmlFor="email"
                 className="text-sm font-medium text-white lg:text-gray-600 mb-1"
+>>>>>>> 3db99e4f3ff253ae5984092bca45fd5027417f75
               >
                 Email Address
               </label>

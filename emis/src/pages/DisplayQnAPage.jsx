@@ -14,7 +14,7 @@ import {
   Divider,
   useToast,
 } from "@chakra-ui/react";
-import { CheckIcon } from "@chakra-ui/icons";
+import { CheckIcon, EditIcon } from "@chakra-ui/icons";
 
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AuthContext } from "../context/AuthContext";
@@ -25,15 +25,26 @@ const DisplayQnAPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [answerName, setAnswerName] = useState(""); // State for questionName
+  const [answerName, setAnswerName] = useState(""); 
   const [editedQuestionName, setEditedQuestionName] = useState("");
+<<<<<<< HEAD
   const [editingQnAId, setEditingQnAId] = useState(null);
 
+=======
+  const [myQnAs, setMyQnAs] = useState([]);
+  const [editingQnAId, setEditingQnAId] = useState(null);
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
   const [expandedQnAId, setExpandedQnAId] = useState(null);
   const [userID, setUserID] = useState("");
   const [subjectID, setSubjectID] = useState("");
+  const [isMyQuestions, setIsMyQuestions] = useState(false);  // State for toggling "My Questions"
   const toast = useToast();
+<<<<<<< HEAD
   const { userRole } = useContext(AuthContext);
+=======
+  const {userRole} = useContext(AuthContext);
+  const {userIdLogin} = useContext(AuthContext);
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
   const { authToken } = useContext(AuthContext);
 
   const fetchQnAs = async () => {
@@ -64,7 +75,6 @@ const DisplayQnAPage = () => {
       setLoading(false);
     }
   };
-
   const handleFilterQuestions = async () => {
     setLoading(true);
     const config = {
@@ -72,7 +82,6 @@ const DisplayQnAPage = () => {
         Authorization: `Bearer ${authToken.access}`,
       },
     };
-
     try {
       const response = await axios.post(
         `/proxy/roles/community/filterQuestions/`,
@@ -100,10 +109,15 @@ const DisplayQnAPage = () => {
         Authorization: `Bearer ${authToken.access}`,
         "Content-Type": "application/json",
       },
+<<<<<<< HEAD
     };
 
     const payload = { qid, aid };
 
+=======
+    }; 
+    const payload = { qid, aid }; 
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
     try {
       await axios.post(
         `/proxy/roles/community/verifiedAnswerForQuestions/`,
@@ -130,8 +144,13 @@ const DisplayQnAPage = () => {
       });
     }
   };
+<<<<<<< HEAD
 
   const handleUpvote = async (qid) => {
+=======
+  
+  const handleUpvote = async (aid) => {
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
     const config = {
       headers: {
         Authorization: `Bearer ${authToken.access}`,
@@ -162,23 +181,26 @@ const DisplayQnAPage = () => {
   };
   const handleAddAnswer = async (qid) => {
     const answerData = { answerName, qid };
-
     try {
-      console.log("Token:", authToken);
-
       const config = {
         headers: {
           Authorization: `Bearer ${authToken.access}`,
           "Content-Type": "application/json",
         },
       };
+<<<<<<< HEAD
 
+=======
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
       const answerResponse = await axios.post(
         `/proxy/roles/community/answers/create/`,
         answerData,
         config
       );
+<<<<<<< HEAD
 
+=======
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
       toast({
         title: "Answer Added",
         description: "Answer has been added successfully!",
@@ -187,7 +209,10 @@ const DisplayQnAPage = () => {
         duration: 3000,
         isClosable: true,
       });
+<<<<<<< HEAD
 
+=======
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
       setAnswerName("");
     } catch (error) {
       console.error(
@@ -208,16 +233,14 @@ const DisplayQnAPage = () => {
     }
   };
 
-  const handleDownvote = async (qid) => {
+  const handleDownvote = async (aid) => {
     const config = {
       headers: {
         Authorization: `Bearer ${authToken.access}`,
         "Content-Type": "application/json",
       },
     };
-
-    const payload = { qid: qid, vote: 0 };
-
+    const payload = { aid: aid, vote: 0 };
     try {
       await axios.post(`/proxy/roles/community/scoreSection/`, payload, config);
       toast({
@@ -237,7 +260,7 @@ const DisplayQnAPage = () => {
       });
     }
   };
-
+  
   const handleDeleteQnA = async (id) => {
     const config = {
       headers: {
@@ -279,9 +302,7 @@ const DisplayQnAPage = () => {
         "Content-Type": "application/json",
       },
     };
-
     const payload = { questionName: editedQuestionName };
-
     try {
       await axios.put(
         `/proxy/roles/community/questions/edit/${id}/`,
@@ -295,14 +316,17 @@ const DisplayQnAPage = () => {
         duration: 3000,
         isClosable: true,
       });
-
       setQnas((prevQnAs) =>
         prevQnAs.map((qna) =>
           qna.qid === id ? { ...qna, questionName: editedQuestionName } : qna
         )
       );
+<<<<<<< HEAD
 
       setEditingQnAId(null);
+=======
+      setEditingQnAId(null); 
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
     } catch (error) {
       toast({
         title: "Error Updating Question",
@@ -313,9 +337,16 @@ const DisplayQnAPage = () => {
       });
     }
   };
-  const filteredQnAs = qnas.filter((qna) =>
-    qna.questionName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredQnAs = qnas
+    .filter((qna) =>
+      qna.questionName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+        .filter((qna) => {
+          // Show only user's questions if "My Questions" is selected
+          if (isMyQuestions) return qna.user.id === userIdLogin;
+          return true; // Show all questions if "All Questions" is selected
+        })
+        
 
   useEffect(() => {
     fetchQnAs();
@@ -378,9 +409,7 @@ const DisplayQnAPage = () => {
           padding="4"
           borderRadius="md"
         />
-      </Flex>
-
-      <Button
+        <Button
         bg="blue.600"
         color="white"
         _hover={{ bg: "blue.700" }}
@@ -393,6 +422,22 @@ const DisplayQnAPage = () => {
       >
         Filter Questions
       </Button>
+      </Flex>
+      <Button
+        bg="blue.600"
+        color="white"
+        _hover={{ bg: "blue.700" }}
+        _active={{ bg: "blue.800" }}
+        onClick={() => setIsMyQuestions(!isMyQuestions)}
+        size="lg"
+        boxShadow="lg"
+        paddingX="8"
+        marginBottom={"6"}
+      >
+        {isMyQuestions ? "Show All Questions" : "My Questions"}
+      </Button>
+
+      
 
       {error && <Text color="red.500">{error}</Text>}
 
@@ -440,6 +485,7 @@ const DisplayQnAPage = () => {
                   </>
                 )}
 
+<<<<<<< HEAD
                 <HStack mt="2">
                   <>
                     <Button
@@ -460,6 +506,43 @@ const DisplayQnAPage = () => {
                       Delete
                     </Button>
                   </>
+=======
+        <HStack mt="2">
+        {qna.user.id === userIdLogin && (
+    
+    <>
+   
+          <Button
+            size="sm"
+            colorScheme="green"
+            onClick={() => {
+              setEditingQnAId(qna.qid);
+              setEditedQuestionName(qna.questionName);
+            }}
+          >
+            Update
+          </Button>
+          <Button
+            size="sm"
+            colorScheme="red"
+            onClick={() => handleDeleteQnA(qna.qid)}
+          >
+            Delete
+          </Button>
+          </>
+        )}
+          
+          <Button
+            size="sm"
+            colorScheme="blue"
+            onClick={() =>
+              setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
+            }
+          >
+            {expandedQnAId === qna.qid ? "Hide Answers" : "Show Answers"}
+          </Button>
+        </HStack>
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
 
                   <Button
                     size="sm"
@@ -470,6 +553,7 @@ const DisplayQnAPage = () => {
                       )
                     }
                   >
+<<<<<<< HEAD
                     {expandedQnAId === qna.qid
                       ? "Hide Answers"
                       : "Show Answers"}
@@ -575,6 +659,83 @@ const DisplayQnAPage = () => {
                         Add Answer
                       </Button>
                     </FormControl>
+=======
+                    <Flex alignItems="center">
+                      <VStack mr="4">
+                        <IconButton
+                          size="sm"
+                          icon={<ChevronUpIcon />}
+                          onClick={() => handleUpvote(answer.aid)}
+                        />
+                        <Text>{answer.vote_count}</Text>
+                        <IconButton
+                          size="sm"
+                          icon={<ChevronDownIcon />}
+                          onClick={() => handleDownvote(answer.aid)}
+                        />
+                      </VStack>
+                      <Box flex="1">
+                        <Text
+                          fontWeight={
+                            qna.verifiedAnswerID === answer.aid
+                              ? "bold"
+                              : "normal"
+                          }
+                          color={
+                            qna.verifiedAnswerID === answer.aid
+                              ? "green.600"
+                              : "black"
+                          }
+                        >
+                          {answer.answerName}
+                        </Text>
+                        <Text fontSize="sm" color="gray.500">
+                          Answered by {answer.user.username} on{" "}
+                          {new Date(answer.created_at).toLocaleString()}
+                        </Text>
+                        {qna.verifiedAnswerID === answer.aid && (
+                          userRole !== "Student" && (
+                            <Text
+                              fontSize="sm"
+                              color="green.600"
+                              mt="1"
+                            >
+                              <strong>Verified</strong> by{" "}
+                              {qna.VerifiedBy.username}
+                            </Text>
+                          )
+                        )}
+                      </Box>
+                      {qna.verifiedAnswerID !== answer.aid && userRole !== "Student" && (
+  <Flex direction="column" align="flex-start" mr="4">
+    <IconButton
+      aria-label="Verify Answer"
+      icon={<CheckIcon />}
+      colorScheme="green"
+      size="sm"
+      onClick={() => handleVerifyAnswer(qna.qid, answer.aid)}
+    />
+  </Flex>
+)}
+{/* 
+{answer.user.id === userIdLogin && (
+  <Flex direction="column" align="flex-start" mr="4">
+    <IconButton
+      aria-label="Edit Answer"
+      icon={<EditIcon />}
+      colorScheme="blue"
+      size="sm"
+      onClick={() => {
+        
+      }}
+      mb="2" 
+    />
+  </Flex>
+)} */}
+
+
+                    </Flex>
+>>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
                   </Box>
                 </Collapse>
               </Box>
