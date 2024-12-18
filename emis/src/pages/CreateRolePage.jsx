@@ -189,7 +189,7 @@ function CreatePermission() {
             <div>
               <form
                 onSubmit={handleSubmit}
-                className="bg-white max-w-lg mx-auto p-4 lg:p-6  rounded-md shadow-md space-y-8 mt-24 lg:mt-10"
+                className="bg-white max-w-lg mx-auto p-4 lg:p-6  rounded-md shadow-md space-y-8 mt-44 lg:mt-10"
               >
                 <p className="text-center text-2xl ">Create Role</p>
                 <div>

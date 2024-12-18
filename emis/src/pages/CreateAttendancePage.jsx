@@ -117,7 +117,7 @@ const CreateAttendancePage = () => {
     <Box
       maxW="500px"
       mx="auto"
-      mt="0"
+      mt={{base: "110px", lg: "0px"}}
       p="6"
       borderWidth="1px"
       borderRadius="lg"

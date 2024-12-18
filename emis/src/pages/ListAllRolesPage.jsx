@@ -110,7 +110,7 @@ function ListAllRolesPage() {
   return (
     <>
       <div className="flex">
-        <div className="flex-grow bg-gray-100 min-h-screen ">
+        <div className="flex-grow bg-gray-100 min-h-screen mt-16 lg:mt-0 ">
           <div className="px-0 lg:px-6">
             <div className="container mx-auto">
               <div className="overflow-x-auto shadow-lg rounded-lg">
@@ -153,7 +153,7 @@ function ListAllRolesPage() {
                                   )
                                 )
                               }
-                              className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md transition duration-300 hover:bg-blue-600"
+                              className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md transition duration-300 hover:bg-blue-600 text-nowrap"
                             >
                               View Permissions
                             </button>

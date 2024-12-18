@@ -23,9 +23,9 @@ import {
   ButtonGroup,
   FormControl,
   FormLabel,
-  Input
+  Input,
 } from "@chakra-ui/react";
-import LoadingGif from "../assets/news-loading.gif";
+import LoadingGif from "../assets/loading-gif.gif";
 import { AuthContext } from "../context/AuthContext";
 
 const BASE_URL = "http://10.5.15.11:8000";
@@ -54,7 +54,12 @@ const ListAllAssignmentsPage = () => {
     try {
       // Fetch the data for the current set of pages
       const requests = Array.from({ length: PAGES_TO_LOAD }, (_, i) =>
-        axios.get(`/proxy/roles/assignment/listAssignment/?page=${(pageSet - 1) * PAGES_TO_LOAD + i + 1}`, config)
+        axios.get(
+          `/proxy/roles/assignment/listAssignment/?page=${
+            (pageSet - 1) * PAGES_TO_LOAD + i + 1
+          }`,
+          config
+        )
       );
 
       const responses = await Promise.allSettled(requests);
@@ -72,7 +77,9 @@ const ListAllAssignmentsPage = () => {
 
       // Update total pages if available from any response
       if (successfulResponses.length > 0) {
-        setTotalPages(Math.ceil(successfulResponses[0].value.data.count / PAGES_TO_LOAD));
+        setTotalPages(
+          Math.ceil(successfulResponses[0].value.data.count / PAGES_TO_LOAD)
+        );
       }
 
       setError("");
@@ -178,7 +185,11 @@ const ListAllAssignmentsPage = () => {
                     `/proxy/roles/assignment/deleteAssignment/${assignmentID}/`,
                     config
                   );
-                  setAssignments(assignments.filter((assignment) => assignment.assignmentID !== assignmentID));
+                  setAssignments(
+                    assignments.filter(
+                      (assignment) => assignment.assignmentID !== assignmentID
+                    )
+                  );
                   toast({
                     title: "Assignment deleted",
                     status: "success",
@@ -238,7 +249,7 @@ const ListAllAssignmentsPage = () => {
   if (loading) {
     return (
       <div className="text-3xl font-bold h-screen flex flex-col justify-center items-center ">
-        <img src={LoadingGif} alt="Loading..." className="w-52" />
+        <img src={LoadingGif} alt="Loading..." className="w-14 lg:w-16" />
         <p className="text-xl font-semibold">Loading assignment...</p>
       </div>
     );
@@ -246,14 +257,14 @@ const ListAllAssignmentsPage = () => {
 
   return (
     <Box display="flex">
-      <Box flex="1" bg="gray.100">
-        <Text fontSize="2xl" mt="4" textAlign="center">
+      <Box flex="1" bg="" mt={{ base: "16", md: "0" }}>
+        <Text fontSize="2xl" mt="0" mb="2" textAlign="left">
           List of Assignments
         </Text>
 
         {error && <Text color="red.500">{error}</Text>}
 
-        <Box p="6">
+        <Box p={{ base: "0", md: "0" }}>
           <Table className="min-w-full table-auto border-collapse border border-gray-200">
             <Thead>
               <Tr className="bg-blue-500">
@@ -292,13 +303,22 @@ const ListAllAssignmentsPage = () => {
             <Tbody>
               {assignments.length > 0 ? (
                 assignments.map((assignment, index) => (
-                  <Tr key={assignment.assignmentID} className="bg-white even:bg-gray-100">
-                    <Td className="px-4 py-2 border border-gray-300">{index + 1}</Td>
-                    <Td className="px-4 py-2 border border-gray-300">{assignment.batchID.name}</Td>
+                  <Tr
+                    key={assignment.assignmentID}
+                    className="bg-white even:bg-gray-100"
+                  >
+                    <Td className="px-4 py-2 border border-gray-300">
+                      {index + 1}
+                    </Td>
+                    <Td className="px-4 py-2 border border-gray-300">
+                      {assignment.batchID.name}
+                    </Td>
                     <Td className="px-4 py-2 border border-gray-300">
                       {`${assignment.subjectID.subjectID} - ${assignment.subjectID.subjectName}`}
                     </Td>
-                    <Td className="px-4 py-2 border border-gray-300">{assignment.assignmentTitle}</Td>
+                    <Td className="px-4 py-2 border border-gray-300">
+                      {assignment.assignmentTitle}
+                    </Td>
                     <Td className="px-4 py-2 border border-gray-300">
                       {assignment.assignmentInFile ? (
                         <a
@@ -313,12 +333,18 @@ const ListAllAssignmentsPage = () => {
                         "N/A"
                       )}
                     </Td>
-                    <Td className="px-4 py-2 border border-gray-300">{assignment.assignmentInText || "N/A"}</Td>
+                    <Td className="px-4 py-2 border border-gray-300">
+                      {assignment.assignmentInText || "N/A"}
+                    </Td>
                     <Td className="px-4 py-2 border border-gray-300">
                       {new Date(assignment.created_at).toLocaleString()}
                     </Td>
-                    <Td className="px-4 py-2 border border-gray-300">{assignment.due_date}</Td>
-                    <Td className="px-4 py-2 border border-gray-300">{assignment.userID}</Td>
+                    <Td className="px-4 py-2 border border-gray-300">
+                      {assignment.due_date}
+                    </Td>
+                    <Td className="px-4 py-2 border border-gray-300">
+                      {assignment.userID}
+                    </Td>
                     <Td className="px-4 py-2 border border-gray-300">
                       <ButtonGroup spacing={2}>
                         <Button
@@ -328,8 +354,7 @@ const ListAllAssignmentsPage = () => {
                         >
                           Edit
                         </Button>
-                      
-                    
+
                         <Button
                           colorScheme="red"
                           onClick={() => handleDelete(assignment.assignmentID)}
@@ -350,7 +375,7 @@ const ListAllAssignmentsPage = () => {
               )}
             </Tbody>
           </Table>
-          
+
           <Box mt={4} display="flex" justifyContent="space-between">
             <Button
               colorScheme="blue"
@@ -359,7 +384,9 @@ const ListAllAssignmentsPage = () => {
             >
               Previous
             </Button>
-            <Text>Page {currentSet} of {totalPages}</Text>
+            <Text>
+              Page {currentSet} of {totalPages}
+            </Text>
             <Button
               colorScheme="blue"
               disabled={currentSet === totalPages}
@@ -401,8 +428,7 @@ const ListAllAssignmentsPage = () => {
           </ModalContent>
         </Modal>
       </Box>
-      </Box>
-
+    </Box>
   );
 };
 

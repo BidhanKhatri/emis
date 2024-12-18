@@ -79,7 +79,7 @@ const CreateQnAPage = () => {
     <Box
       maxW="500px"
       mx="auto"
-      mt="5"
+      mt={{ base: "200", sm: "200", md: "200", lg: "100", xl: "100" }}
       p="6"
       borderWidth="1px"
       borderRadius="lg"

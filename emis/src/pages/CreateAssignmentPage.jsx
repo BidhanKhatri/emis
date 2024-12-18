@@ -23,7 +23,7 @@ const CreateAssignmentPage = () => {
   const [assignmentInText, setAssignmentInText] = useState("");
   const [batchID, setBatchID] = useState("");
   const toast = useToast();
-  
+
   const { authToken } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
@@ -45,12 +45,17 @@ const CreateAssignmentPage = () => {
         },
       };
 
-      const response = await axios.post(`/proxy/roles/assignment/createAssignment/`, formData, config);
-      
+      const response = await axios.post(
+        `/proxy/roles/assignment/createAssignment/`,
+        formData,
+        config
+      );
+
       // Show success message
       toast({
         title: "Assignment Created",
-        description: response.data.message || "Assignment has been created successfully!",
+        description:
+          response.data.message || "Assignment has been created successfully!",
         status: "success",
         position: "top-right",
         duration: 3000,
@@ -68,7 +73,9 @@ const CreateAssignmentPage = () => {
       console.error("Error creating assignment:", error);
       toast({
         title: "Error Creating Assignment",
-        description: error.response?.data?.message || "An error occurred while creating the assignment.",
+        description:
+          error.response?.data?.message ||
+          "An error occurred while creating the assignment.",
         status: "error",
         position: "top-right",
         duration: 3000,
@@ -78,74 +85,73 @@ const CreateAssignmentPage = () => {
   };
 
   return (
-    
-        <Box
-          maxW="500px"
-          mx="auto"
-          mt="5"
-          p="6"
-          borderWidth="1px"
-          borderRadius="lg"
-          boxShadow="md"
-          bg="white"
-        >
-          <Text fontSize="2xl" mb="4" textAlign="center">
-            Create Assignment
-          </Text>
-          <form onSubmit={handleSubmit}>
-            <Flex mb="4" justify="space-between">
-              <FormControl isRequired width="48%">
-                <FormLabel>Subject ID</FormLabel>
-                <Input
-                  type="text"
-                  value={subjectID}
-                  onChange={(e) => setSubjectID(e.target.value)}
-                />
-              </FormControl>
-              <FormControl isRequired width="48%">
-                <FormLabel>Batch ID</FormLabel>
-                <Input
-                  type="text"
-                  value={batchID}
-                  onChange={(e) => setBatchID(e.target.value)}
-                />
-              </FormControl>
-            </Flex>
-            <FormControl isRequired mb="4">
-              <FormLabel>Title</FormLabel>
-              <Input
-                type="text"
-                value={assignmentTitle}
-                onChange={(e) => setAssignmentTitle(e.target.value)}
-              />
-            </FormControl>
-            <FormControl isRequired mb="4">
-              <FormLabel>Due Date</FormLabel>
-              <Input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-              />
-            </FormControl>
-            <FormControl mb="4">
-              <FormLabel>Attach File</FormLabel>
-              <Input
-                type="file"
-                onChange={(e) => setAssignmentInFile(e.target.files[0])}
-              />
-            </FormControl>
-            <FormControl mb="4">
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                value={assignmentInText}
-                onChange={(e) => setAssignmentInText(e.target.value)}
-              />
-            </FormControl>
-            <Button type="submit" colorScheme="blue" width="full">
-              Create Assignment
-            </Button>
-          </form>
-        </Box>
+    <Box
+      maxW="500px"
+      mx="auto"
+      mt={{ base: "100px", lg: "0px" }}
+      p="6"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      bg="white"
+    >
+      <Text fontSize="2xl" mb="4" textAlign="center">
+        Create Assignment
+      </Text>
+      <form onSubmit={handleSubmit}>
+        <Flex mb="4" justify="space-between">
+          <FormControl isRequired width="48%">
+            <FormLabel>Subject ID</FormLabel>
+            <Input
+              type="text"
+              value={subjectID}
+              onChange={(e) => setSubjectID(e.target.value)}
+            />
+          </FormControl>
+          <FormControl isRequired width="48%">
+            <FormLabel>Batch ID</FormLabel>
+            <Input
+              type="text"
+              value={batchID}
+              onChange={(e) => setBatchID(e.target.value)}
+            />
+          </FormControl>
+        </Flex>
+        <FormControl isRequired mb="4">
+          <FormLabel>Title</FormLabel>
+          <Input
+            type="text"
+            value={assignmentTitle}
+            onChange={(e) => setAssignmentTitle(e.target.value)}
+          />
+        </FormControl>
+        <FormControl isRequired mb="4">
+          <FormLabel>Due Date</FormLabel>
+          <Input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </FormControl>
+        <FormControl mb="4">
+          <FormLabel>Attach File</FormLabel>
+          <Input
+            type="file"
+            onChange={(e) => setAssignmentInFile(e.target.files[0])}
+          />
+        </FormControl>
+        <FormControl mb="4">
+          <FormLabel>Description</FormLabel>
+          <Textarea
+            value={assignmentInText}
+            onChange={(e) => setAssignmentInText(e.target.value)}
+          />
+        </FormControl>
+        <Button type="submit" colorScheme="blue" width="full">
+          Create Assignment
+        </Button>
+      </form>
+    </Box>
   );
 };
 

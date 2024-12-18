@@ -311,7 +311,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        
+
         <Route
           path="/edit-profile"
           element={
@@ -344,7 +344,6 @@ function App() {
             </PrivateRoute>
           }
         />
-        
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -362,8 +361,7 @@ function App() {
               <div className="container mx-auto my-8">
                 {userRole === "Admin" && <>{adminComponents()}</>}
                 {userRole === "Teacher" && <>{teacherComponents()}</>}
-                {userRole === "Student" && <>{studentComponents()}</>
-                }
+                {userRole === "Student" && <>{studentComponents()}</>}
                 {!userRole && <h1>Invalid role</h1>}
               </div>
             </div>

@@ -127,7 +127,7 @@ const ListAllUser = () => {
       title: "Confirm Deactivate",
       description: "Are you sure you want to deactivate this user?",
       status: "warning",
-      duration: null, 
+      duration: null,
       position: "top-right",
       isClosable: false,
       render: () => (
@@ -155,17 +155,17 @@ const ListAllUser = () => {
                       Authorization: `Bearer ${authToken.access}`,
                     },
                   };
-  
+
                   // Make the API call to deactivate the user
                   await axios.patch(
                     `/proxy/user/deactivate_user/${userId}/`,
                     { is_active: 0 }, // Ensure backend accepts this format
                     config
                   );
-  
+
                   // Update the user list locally
                   setUsers(users.filter((user) => user.id !== userId));
-  
+
                   toast({
                     title: "User deactivated",
                     description: `User with ID ${userId} has been successfully deactivated.`,
@@ -187,16 +187,13 @@ const ListAllUser = () => {
                     isClosable: true,
                   });
                 } finally {
-                  toast.closeAll(); 
+                  toast.closeAll();
                 }
               }}
             >
               Confirm
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => toast.closeAll()} 
-            >
+            <Button variant="outline" onClick={() => toast.closeAll()}>
               Cancel
             </Button>
           </Box>
@@ -204,7 +201,6 @@ const ListAllUser = () => {
       ),
     });
   };
-  
 
   // Add a function to filter users
   const filteredUsers = users.filter((user) => {
@@ -229,8 +225,8 @@ const ListAllUser = () => {
   return (
     <>
       <div className="flex">
-        <div className="flex-grow bg-gray-100 min-h-screen">
-          <div className="px-6">
+        <div className="flex-grow bg-gray-100 min-h-screen mt-16 lg:mt-0">
+          <div className="px-0 lg:px-6">
             <div className="container mx-auto ">
               {error && <div className="text-red-500">{error}</div>}
               {/* Buttons for filtering */}
@@ -267,9 +263,7 @@ const ListAllUser = () => {
                       Role ID
                     </th>
                     <th className="px-4 py-2 border border-gray-300">Email</th>
-                    <th className="px-4 py-2 border border-gray-300">
-                      Status
-                    </th>
+                    <th className="px-4 py-2 border border-gray-300">Status</th>
                     <th className="px-4 py-2 border border-gray-300">
                       Actions
                     </th>

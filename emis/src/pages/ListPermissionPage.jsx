@@ -71,8 +71,8 @@ const ListPermissionPage = () => {
   return (
     <div>
       <div className="flex">
-        <div className="flex-grow bg-gray-100 min-h-screen">
-          <div className="px-6">
+        <div className="flex-grow bg-gray-100 min-h-screen mt-16 lg:mt-0">
+          <div className="px-0 lg:px-6">
             <div className="container mx-auto">
               <div className="container mx-auto">
                 <div className="overflow-x-auto shadow-lg rounded-lg">

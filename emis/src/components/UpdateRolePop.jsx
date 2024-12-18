@@ -140,7 +140,7 @@ const UpdateRolePop = ({ roleName, updateRoleData }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center  px-4 lg:px-0">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
         <div>
           <h2 className="text-2xl mb-4 text-center p-1  ">

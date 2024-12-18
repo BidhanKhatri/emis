@@ -69,63 +69,62 @@ const CreateNoticePage = () => {
   };
 
   return (
-  
-        <Box
-          maxW="500px"
-          mx="auto"
-          mt="5"
-          p="6"
-          borderWidth="1px"
-          borderRadius="lg"
-          boxShadow="md"
-          bg="white"
-        >
-          <Text fontSize="2xl" mb="4" textAlign="center">
-            Create Notice
-          </Text>
-          <form onSubmit={handleSubmit}>
-            <FormControl mb="4">
-              <FormLabel htmlFor="noticeName">Notice Name</FormLabel>
-              <Input
-                id="noticeName"
-                type="text"
-                value={noticeName}
-                onChange={(e) => setNoticeName(e.target.value)}
-                placeholder="Enter notice name"
-                required
-              />
-            </FormControl>
+    <Box
+      maxW="500px"
+      mx="auto"
+      mt={{ base: "190", lg: "0" }}
+      p="6"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      bg="white"
+    >
+      <Text fontSize="2xl" mb="4" textAlign="center">
+        Create Notice
+      </Text>
+      <form onSubmit={handleSubmit}>
+        <FormControl mb="4">
+          <FormLabel htmlFor="noticeName">Notice Name</FormLabel>
+          <Input
+            id="noticeName"
+            type="text"
+            value={noticeName}
+            onChange={(e) => setNoticeName(e.target.value)}
+            placeholder="Enter notice name"
+            required
+          />
+        </FormControl>
 
-            <FormControl mb="4">
-              <FormLabel htmlFor="facultyBatchSem">
-                Faculty / Batch / Semester
-              </FormLabel>
-              <Input
-                id="facultyBatchSem"
-                type="text"
-                value={facultyBatchSem}
-                onChange={(e) => setFacultyBatchSem(e.target.value)}
-                placeholder="Enter faculty / batch / semester"
-                required
-              />
-            </FormControl>
+        <FormControl mb="4">
+          <FormLabel htmlFor="facultyBatchSem">
+            Faculty / Batch / Semester
+          </FormLabel>
+          <Input
+            id="facultyBatchSem"
+            type="text"
+            value={facultyBatchSem}
+            onChange={(e) => setFacultyBatchSem(e.target.value)}
+            placeholder="Enter faculty / batch / semester"
+            required
+          />
+        </FormControl>
 
-            <FormControl mb="4">
-              <FormLabel htmlFor="imageFile">Upload Image</FormLabel>
-              <Input
-                id="imageFile"
-                type="file"
-                onChange={handleFileChange}
-                className="flex flex-col justify-center items-center bg-red-500 p-2"
-                required
-              />
-            </FormControl>
+        <FormControl mb="4">
+          <FormLabel htmlFor="imageFile">Upload Image</FormLabel>
+          <Input
+            id="imageFile"
+            type="file"
+            onChange={handleFileChange}
+            className="flex flex-col justify-center items-center bg-red-500 p-2"
+            required
+          />
+        </FormControl>
 
-            <Button type="submit" colorScheme="blue" width="full">
-              Create Notice
-            </Button>
-          </form>
-        </Box>
+        <Button type="submit" colorScheme="blue" width="full">
+          Create Notice
+        </Button>
+      </form>
+    </Box>
   );
 };
 

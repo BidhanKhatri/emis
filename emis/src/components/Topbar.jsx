@@ -53,7 +53,7 @@ const Topbar = () => {
   return (
     <>
       {/* This is the top bar for mobile or small devices */}
-      <div className="w-full bg-white  flex items-center justify-between lg:justify-end p-4 lg:px-10 shadow-md ">
+      <div className=" flex items-center justify-between lg:justify-end p-4 lg:px-10 shadow-md   fixed lg:static w-full bg-white z-[999]">
         <div
           className="relative lg:hidden items-center cursor-pointer p-2 bg-gray-200/80 rounded-full hover:scale-110 transition-all duration-700 "
           onClick={handleLeftSideBarToggle}

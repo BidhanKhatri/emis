@@ -69,10 +69,10 @@ const CreatePermissionPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[70vh]">
+    <div className="flex items-center justify-center  h-[90vh] lg:h-[70vh] ">
       <form
         onSubmit={insertPermission}
-        className="p-4 bg-white min-w-[500px] rounded"
+        className="p-4 bg-white  rounded w-full lg:min-w-[500px] lg:max-w-[600px]"
         style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
       >
         <h1 className="text-xl font-semibold mb-4 text-center">

@@ -74,8 +74,18 @@ const AllAttendancePage = () => {
   const month = date ? date.toLocaleString("default", { month: "long" }) : "";
 
   return (
-    <Box p="6" flex="1" overflowY="auto" backgroundColor="transparent">
-      <Box display="flex" justifyContent="space-between" mb="4">
+    <Box
+      p={{ base: 0, lg: 2 }}
+      flex="1"
+      overflowY="auto"
+      backgroundColor="transparent"
+    >
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        mb="4"
+        mt={{ base: 20, lg: 0 }}
+      >
         <Box display="flex" width="100%" gap="10">
           <Box display="flex" flexDirection="column" gap="4">
             <Input
@@ -98,6 +108,7 @@ const AllAttendancePage = () => {
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
+              placeholder="YYYY-MM-DD"
               borderColor="blue.500"
             />
           </Box>
@@ -127,11 +138,21 @@ const AllAttendancePage = () => {
       >
         <Thead bg="blue.500">
           <Tr>
-            <Th color="white" borderColor="gray.300">Subject</Th>
-            <Th color="white" borderColor="gray.300">Semester</Th>
-            <Th color="white" borderColor="gray.300">Date</Th>
-            <Th color="white" borderColor="gray.300">User ID</Th>
-            <Th color="white" borderColor="gray.300">Status</Th>
+            <Th color="white" borderColor="gray.300">
+              Subject
+            </Th>
+            <Th color="white" borderColor="gray.300">
+              Semester
+            </Th>
+            <Th color="white" borderColor="gray.300">
+              Date
+            </Th>
+            <Th color="white" borderColor="gray.300">
+              User ID
+            </Th>
+            <Th color="white" borderColor="gray.300">
+              Status
+            </Th>
           </Tr>
         </Thead>
         <Tbody>

@@ -127,8 +127,8 @@ const SimpleTable = () => {
   return (
     <>
       
-          <div className="px-6">
-            <div className="container mx-auto mt-10 ">
+          <div className="lg:px-6">
+            <div className="container mx-auto mt-24 lg:mt-10">
               {/* Buttons at the Top */}
               <div className="flex space-x-4 mb-6">
                 <button

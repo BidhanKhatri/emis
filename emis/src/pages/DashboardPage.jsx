@@ -305,7 +305,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto mt-28 lg:mt-0 ">
       {/* <h2 className="text-xl font-semibold mb-6">Dashboard Overview</h2> */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6">
         {/* Total Users Card */}

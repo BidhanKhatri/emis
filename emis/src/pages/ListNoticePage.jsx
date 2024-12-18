@@ -1,7 +1,7 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { CloseButton } from "@chakra-ui/react";
-import LoadingGif from "../assets/news-loading.gif";
+import LoadingGif from "../assets/loading-gif.gif";
 import { AuthContext } from "../context/AuthContext";
 import {
   Box,
@@ -39,10 +39,9 @@ const ListNoticePage = () => {
   const toast = useToast();
   const { authToken } = useContext(AuthContext);
 
-
   const fetchNotices = async (semesterId) => {
     setLoading(true);
-    try {;
+    try {
       const config = {
         headers: {
           Authorization: `Bearer ${authToken.access}`,
@@ -80,6 +79,7 @@ const ListNoticePage = () => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
       setNotices([]);
     } finally {
@@ -105,7 +105,7 @@ const ListNoticePage = () => {
   if (loading) {
     return (
       <div className="text-3xl font-bold h-screen flex flex-col justify-center items-center ">
-        <img src={LoadingGif} alt="Loading..." className="w-52" />
+        <img src={LoadingGif} alt="Loading..." className="w-12 lg:w-16" />
         <p className="text-xl font-semibold">Loading Notices...</p>
       </div>
     );
@@ -113,16 +113,16 @@ const ListNoticePage = () => {
 
   return (
     <Box display="flex">
-      <Box flex="1" bg="gray.100">
+      <Box flex="1" bg="">
         <Box
-          maxW="800px"
           mx="auto"
-          mt="5"
+          mt={{ base: "56", md: "5" }}
           p="6"
           bg="white"
           borderWidth="1px"
           borderRadius="lg"
           boxShadow="md"
+          w={{ base: "full", md: "auto" }}
         >
           <Text fontSize="2xl" mb="4" textAlign="center">
             List of Notices
@@ -146,11 +146,11 @@ const ListNoticePage = () => {
 
           {error && <Text color="red.500">{error}</Text>}
 
-          <Table variant="simple">
+          <Table variant="simple" size={{ base: "sm", md: "md", lg: "full" }}>
             <Thead>
               <Tr>
                 <Th>Notice Name</Th>
-                <Th>Semester</Th>
+                <Th>Sem</Th>
                 <Th>Image</Th>
                 <Th>Actions</Th>
               </Tr>
