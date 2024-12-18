@@ -25,26 +25,17 @@ const DisplayQnAPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [answerName, setAnswerName] = useState(""); 
+  const [answerName, setAnswerName] = useState("");
   const [editedQuestionName, setEditedQuestionName] = useState("");
-<<<<<<< HEAD
-  const [editingQnAId, setEditingQnAId] = useState(null);
-
-=======
   const [myQnAs, setMyQnAs] = useState([]);
   const [editingQnAId, setEditingQnAId] = useState(null);
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
   const [expandedQnAId, setExpandedQnAId] = useState(null);
   const [userID, setUserID] = useState("");
   const [subjectID, setSubjectID] = useState("");
-  const [isMyQuestions, setIsMyQuestions] = useState(false);  // State for toggling "My Questions"
+  const [isMyQuestions, setIsMyQuestions] = useState(false); // State for toggling "My Questions"
   const toast = useToast();
-<<<<<<< HEAD
   const { userRole } = useContext(AuthContext);
-=======
-  const {userRole} = useContext(AuthContext);
-  const {userIdLogin} = useContext(AuthContext);
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
+  const { userIdLogin } = useContext(AuthContext);
   const { authToken } = useContext(AuthContext);
 
   const fetchQnAs = async () => {
@@ -109,15 +100,8 @@ const DisplayQnAPage = () => {
         Authorization: `Bearer ${authToken.access}`,
         "Content-Type": "application/json",
       },
-<<<<<<< HEAD
     };
-
     const payload = { qid, aid };
-
-=======
-    }; 
-    const payload = { qid, aid }; 
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
     try {
       await axios.post(
         `/proxy/roles/community/verifiedAnswerForQuestions/`,
@@ -144,13 +128,8 @@ const DisplayQnAPage = () => {
       });
     }
   };
-<<<<<<< HEAD
 
-  const handleUpvote = async (qid) => {
-=======
-  
   const handleUpvote = async (aid) => {
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
     const config = {
       headers: {
         Authorization: `Bearer ${authToken.access}`,
@@ -188,19 +167,11 @@ const DisplayQnAPage = () => {
           "Content-Type": "application/json",
         },
       };
-<<<<<<< HEAD
-
-=======
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
       const answerResponse = await axios.post(
         `/proxy/roles/community/answers/create/`,
         answerData,
         config
       );
-<<<<<<< HEAD
-
-=======
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
       toast({
         title: "Answer Added",
         description: "Answer has been added successfully!",
@@ -209,10 +180,6 @@ const DisplayQnAPage = () => {
         duration: 3000,
         isClosable: true,
       });
-<<<<<<< HEAD
-
-=======
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
       setAnswerName("");
     } catch (error) {
       console.error(
@@ -260,7 +227,7 @@ const DisplayQnAPage = () => {
       });
     }
   };
-  
+
   const handleDeleteQnA = async (id) => {
     const config = {
       headers: {
@@ -321,12 +288,7 @@ const DisplayQnAPage = () => {
           qna.qid === id ? { ...qna, questionName: editedQuestionName } : qna
         )
       );
-<<<<<<< HEAD
-
       setEditingQnAId(null);
-=======
-      setEditingQnAId(null); 
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
     } catch (error) {
       toast({
         title: "Error Updating Question",
@@ -341,12 +303,11 @@ const DisplayQnAPage = () => {
     .filter((qna) =>
       qna.questionName.toLowerCase().includes(searchTerm.toLowerCase())
     )
-        .filter((qna) => {
-          // Show only user's questions if "My Questions" is selected
-          if (isMyQuestions) return qna.user.id === userIdLogin;
-          return true; // Show all questions if "All Questions" is selected
-        })
-        
+    .filter((qna) => {
+      // Show only user's questions if "My Questions" is selected
+      if (isMyQuestions) return qna.user.id === userIdLogin;
+      return true; // Show all questions if "All Questions" is selected
+    });
 
   useEffect(() => {
     fetchQnAs();
@@ -362,10 +323,10 @@ const DisplayQnAPage = () => {
   }
 
   return (
-    <Box p="0" mt={{ base: 24, lg: 0 }}>
+    <Box p="0" mt={{ base: "105", lg: "0" }}>
       <Flex
         mb="4"
-        alignItems="center"
+        alignItems={{ base: "left", lg: "center" }}
         gap="4"
         direction={{ base: "column", md: "row" }}
       >
@@ -406,22 +367,22 @@ const DisplayQnAPage = () => {
           borderColor="gray.300"
           _hover={{ borderColor: "gray.500" }}
           _focus={{ borderColor: "teal.500" }}
-          padding="4"
+          padding="6"
           borderRadius="md"
         />
         <Button
-        bg="blue.600"
-        color="white"
-        _hover={{ bg: "blue.700" }}
-        _active={{ bg: "blue.800" }}
-        onClick={handleFilterQuestions}
-        size="lg"
-        boxShadow="lg"
-        paddingX="8"
-        marginBottom={"6"}
-      >
-        Filter Questions
-      </Button>
+          bg="blue.600"
+          color="white"
+          _hover={{ bg: "blue.700" }}
+          _active={{ bg: "blue.800" }}
+          onClick={handleFilterQuestions}
+          size="lg"
+          boxShadow="lg"
+          paddingX="8"
+          marginBottom={{ base: "2", lg: "0" }}
+        >
+          Filter Questions
+        </Button>
       </Flex>
       <Button
         bg="blue.600"
@@ -436,8 +397,6 @@ const DisplayQnAPage = () => {
       >
         {isMyQuestions ? "Show All Questions" : "My Questions"}
       </Button>
-
-      
 
       {error && <Text color="red.500">{error}</Text>}
 
@@ -485,64 +444,28 @@ const DisplayQnAPage = () => {
                   </>
                 )}
 
-<<<<<<< HEAD
                 <HStack mt="2">
-                  <>
-                    <Button
-                      size="sm"
-                      colorScheme="green"
-                      onClick={() => {
-                        setEditingQnAId(qna.qid);
-                        setEditedQuestionName(qna.questionName);
-                      }}
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      size="sm"
-                      colorScheme="red"
-                      onClick={() => handleDeleteQnA(qna.qid)}
-                    >
-                      Delete
-                    </Button>
-                  </>
-=======
-        <HStack mt="2">
-        {qna.user.id === userIdLogin && (
-    
-    <>
-   
-          <Button
-            size="sm"
-            colorScheme="green"
-            onClick={() => {
-              setEditingQnAId(qna.qid);
-              setEditedQuestionName(qna.questionName);
-            }}
-          >
-            Update
-          </Button>
-          <Button
-            size="sm"
-            colorScheme="red"
-            onClick={() => handleDeleteQnA(qna.qid)}
-          >
-            Delete
-          </Button>
-          </>
-        )}
-          
-          <Button
-            size="sm"
-            colorScheme="blue"
-            onClick={() =>
-              setExpandedQnAId(expandedQnAId === qna.qid ? null : qna.qid)
-            }
-          >
-            {expandedQnAId === qna.qid ? "Hide Answers" : "Show Answers"}
-          </Button>
-        </HStack>
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
+                  {qna.user.id === userIdLogin && (
+                    <>
+                      <Button
+                        size="sm"
+                        colorScheme="green"
+                        onClick={() => {
+                          setEditingQnAId(qna.qid);
+                          setEditedQuestionName(qna.questionName);
+                        }}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        size="sm"
+                        colorScheme="red"
+                        onClick={() => handleDeleteQnA(qna.qid)}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
 
                   <Button
                     size="sm"
@@ -553,7 +476,6 @@ const DisplayQnAPage = () => {
                       )
                     }
                   >
-<<<<<<< HEAD
                     {expandedQnAId === qna.qid
                       ? "Hide Answers"
                       : "Show Answers"}
@@ -629,17 +551,37 @@ const DisplayQnAPage = () => {
                               </Box>
                               {qna.verifiedAnswerID !== answer.aid &&
                                 userRole !== "Student" && (
-                                  <IconButton
-                                    aria-label="Verify Answer"
-                                    icon={<CheckIcon />}
-                                    colorScheme="green"
-                                    size="sm"
-                                    onClick={() =>
-                                      handleVerifyAnswer(qna.qid, answer.aid)
-                                    }
-                                    ml="4"
-                                  />
+                                  <Flex
+                                    direction="column"
+                                    align="flex-start"
+                                    mr="4"
+                                  >
+                                    <IconButton
+                                      aria-label="Verify Answer"
+                                      icon={<CheckIcon />}
+                                      colorScheme="green"
+                                      size="sm"
+                                      onClick={() =>
+                                        handleVerifyAnswer(qna.qid, answer.aid)
+                                      }
+                                    />
+                                  </Flex>
                                 )}
+                              {/* 
+{answer.user.id === userIdLogin && (
+  <Flex direction="column" align="flex-start" mr="4">
+    <IconButton
+      aria-label="Edit Answer"
+      icon={<EditIcon />}
+      colorScheme="blue"
+      size="sm"
+      onClick={() => {
+        
+      }}
+      mb="2" 
+    />
+  </Flex>
+)} */}
                             </Flex>
                           </Box>
                         ))}
@@ -659,83 +601,6 @@ const DisplayQnAPage = () => {
                         Add Answer
                       </Button>
                     </FormControl>
-=======
-                    <Flex alignItems="center">
-                      <VStack mr="4">
-                        <IconButton
-                          size="sm"
-                          icon={<ChevronUpIcon />}
-                          onClick={() => handleUpvote(answer.aid)}
-                        />
-                        <Text>{answer.vote_count}</Text>
-                        <IconButton
-                          size="sm"
-                          icon={<ChevronDownIcon />}
-                          onClick={() => handleDownvote(answer.aid)}
-                        />
-                      </VStack>
-                      <Box flex="1">
-                        <Text
-                          fontWeight={
-                            qna.verifiedAnswerID === answer.aid
-                              ? "bold"
-                              : "normal"
-                          }
-                          color={
-                            qna.verifiedAnswerID === answer.aid
-                              ? "green.600"
-                              : "black"
-                          }
-                        >
-                          {answer.answerName}
-                        </Text>
-                        <Text fontSize="sm" color="gray.500">
-                          Answered by {answer.user.username} on{" "}
-                          {new Date(answer.created_at).toLocaleString()}
-                        </Text>
-                        {qna.verifiedAnswerID === answer.aid && (
-                          userRole !== "Student" && (
-                            <Text
-                              fontSize="sm"
-                              color="green.600"
-                              mt="1"
-                            >
-                              <strong>Verified</strong> by{" "}
-                              {qna.VerifiedBy.username}
-                            </Text>
-                          )
-                        )}
-                      </Box>
-                      {qna.verifiedAnswerID !== answer.aid && userRole !== "Student" && (
-  <Flex direction="column" align="flex-start" mr="4">
-    <IconButton
-      aria-label="Verify Answer"
-      icon={<CheckIcon />}
-      colorScheme="green"
-      size="sm"
-      onClick={() => handleVerifyAnswer(qna.qid, answer.aid)}
-    />
-  </Flex>
-)}
-{/* 
-{answer.user.id === userIdLogin && (
-  <Flex direction="column" align="flex-start" mr="4">
-    <IconButton
-      aria-label="Edit Answer"
-      icon={<EditIcon />}
-      colorScheme="blue"
-      size="sm"
-      onClick={() => {
-        
-      }}
-      mb="2" 
-    />
-  </Flex>
-)} */}
-
-
-                    </Flex>
->>>>>>> c51ce7886ab2b2996448dd88e85312fcf90fd333
                   </Box>
                 </Collapse>
               </Box>

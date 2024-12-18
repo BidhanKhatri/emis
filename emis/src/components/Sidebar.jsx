@@ -25,7 +25,7 @@ import {
 } from "react-icons/md";
 import { AiOutlineNotification } from "react-icons/ai";
 import { FiBell, FiX } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CreateUserPage from "../pages/CreateUserPage";
 import { IoMdAlert } from "react-icons/io";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
@@ -46,6 +46,7 @@ const Sidebar = () => {
     closeLeftSideBarOnNavigationLinkClick,
   } = useContext(AuthContext); // Get userRole from context
   console.log(isLeftSideBarOpen);
+  const location = useLocation();
 
   // Toggle functions
   const handleActivityToggle = () => setActivityOpen(!activityOpen);
@@ -91,9 +92,12 @@ const Sidebar = () => {
         <div className="text-gray-500">
           <nav className="flex flex-col space-y-4">
             {/* Common Links for All Roles */}
+
             <Link
               to="/"
-              className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+              className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                location.pathname === "/" ? "bg-blue-500 text-white" : ""
+              }`}
               onClick={closeLeftSideBarOnNavigationLinkClick}
             >
               <FaHome className="mr-3" /> Dashboard
@@ -104,20 +108,32 @@ const Sidebar = () => {
               <>
                 <Link
                   to="/list-notice"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/list-notice"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                 >
                   <FaClipboardList className="mr-3" /> Display Notice
                 </Link>
                 <Link
                   to="/create-complaint"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/create-complaint"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                 >
                   <MdAnnouncement className="mr-3" /> Create Complaints
                 </Link>
 
                 <Link
                   to="/my-complaint"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/my-complaint"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                 >
                   <MdAnnouncement className="mr-3" /> My Complaints
                 </Link>
@@ -128,14 +144,22 @@ const Sidebar = () => {
               <>
                 <Link
                   to="/create-assignment"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/create-assignment"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                   onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdAddAlert className="mr-3" /> Create Assignment
                 </Link>
                 <Link
                   to="/my-assignment"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/my-assignment"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                   onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdAddAlert className="mr-3" /> My Assignment
@@ -164,7 +188,11 @@ const Sidebar = () => {
                     <div className="flex flex-col space-y-2 pl-8 mt-2">
                       <Link
                         to="/create/role"
-                        className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                          location.pathname === "/create/role"
+                            ? "bg-blue-500 text-white"
+                            : ""
+                        }`}
                         onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <MdPersonAdd className="mr-3" /> Create Role
@@ -172,7 +200,11 @@ const Sidebar = () => {
 
                       <Link
                         to="/list-roles"
-                        className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                          location.pathname === "/list-roles"
+                            ? "bg-blue-500 text-white"
+                            : ""
+                        }`}
                         onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <FaUserTag className="mr-3" /> Display Roles
@@ -206,7 +238,11 @@ const Sidebar = () => {
                     <div className="flex flex-col space-y-2 pl-8 mt-2">
                       <Link
                         to="/create/permission"
-                        className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                          location.pathname === "/create/permission"
+                            ? "bg-blue-500 text-white"
+                            : ""
+                        }`}
                         onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <MdPersonAdd className="mr-3" /> Create Permission
@@ -214,7 +250,11 @@ const Sidebar = () => {
 
                       <Link
                         to="/list/permission"
-                        className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                        className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                          location.pathname === "/list/permission"
+                            ? "bg-blue-500 text-white"
+                            : ""
+                        }`}
                         onClick={closeLeftSideBarOnNavigationLinkClick}
                       >
                         <FaUserTag className="mr-3" /> List Permission
@@ -240,7 +280,11 @@ const Sidebar = () => {
                   <div className="flex flex-col space-y-2 pl-8 mt-2">
                     <Link
                       to="/create-assignment"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                        location.pathname === "/create-assignment"
+                          ? "bg-blue-500 text-white"
+                          : ""
+                      }`}
                       onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <MdAddAlert className="mr-3" /> Create Assignment
@@ -248,7 +292,11 @@ const Sidebar = () => {
 
                     <Link
                       to="/list-assignment"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                        location.pathname === "/list-assignment"
+                          ? "bg-blue-500 text-white"
+                          : ""
+                      }`}
                       onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <IoMdAlert className="mr-3" /> Display Assignment
@@ -272,14 +320,22 @@ const Sidebar = () => {
                   <div className="flex flex-col space-y-2 pl-8 mt-2">
                     <Link
                       to="/create-notice"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                        location.pathname === "/create-notice"
+                          ? "bg-blue-500 text-white"
+                          : ""
+                      }`}
                       onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <MdAddAlert className="mr-3" /> Create Notice
                     </Link>
                     <Link
                       to="/list-notice"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                        location.pathname === "/list-notice"
+                          ? "bg-blue-500 text-white"
+                          : ""
+                      }`}
                       onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <IoMdAlert className="mr-3" /> Display Notice
@@ -295,21 +351,33 @@ const Sidebar = () => {
 
                 <Link
                   to="/user/list"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/user/list"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                   onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdGroup className="mr-3" /> List Users
                 </Link>
                 <Link
                   to="/list/complaints"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/list/complaints"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                   onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <MdFeedback className="mr-3" /> Complaints
                 </Link>
                 <Link
                   to="/create-attendance"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/create-attendance"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                   onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <FaClipboardList className="mr-3" /> Create Attendance
@@ -321,7 +389,11 @@ const Sidebar = () => {
               <>
                 <Link
                   to="/list-attendance"
-                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                  className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                    location.pathname === "/list-attendance"
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
                   onClick={closeLeftSideBarOnNavigationLinkClick}
                 >
                   <FaClipboardList className="mr-3" /> Attendance
@@ -345,7 +417,11 @@ const Sidebar = () => {
                   <div className="flex flex-col space-y-2 pl-8 mt-2">
                     <Link
                       to="/create-qna"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                        location.pathname === "/create-qna"
+                          ? "bg-blue-500 text-white"
+                          : ""
+                      }`}
                       onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <MdAddAlert className="mr-3" /> Create QnA
@@ -353,7 +429,11 @@ const Sidebar = () => {
 
                     <Link
                       to="/list-qna"
-                      className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                      className={`flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors ${
+                        location.pathname === "/list-qna"
+                          ? "bg-blue-500 text-white"
+                          : ""
+                      }`}
                       onClick={closeLeftSideBarOnNavigationLinkClick}
                     >
                       <IoMdAlert className="mr-3" /> Display QnA
