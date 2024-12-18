@@ -14,7 +14,7 @@ import {
   Divider,
   useToast,
 } from "@chakra-ui/react";
-import { CheckIcon } from "@chakra-ui/icons";
+import { CheckIcon, EditIcon } from "@chakra-ui/icons";
 
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { AuthContext } from "../context/AuthContext";
@@ -25,14 +25,14 @@ const DisplayQnAPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [answerName, setAnswerName] = useState(""); // State for questionName
+  const [answerName, setAnswerName] = useState(""); 
   const [editedQuestionName, setEditedQuestionName] = useState("");
-const [editingQnAId, setEditingQnAId] = useState(null);
-
-
+  const [myQnAs, setMyQnAs] = useState([]);
+  const [editingQnAId, setEditingQnAId] = useState(null);
   const [expandedQnAId, setExpandedQnAId] = useState(null);
   const [userID, setUserID] = useState("");
   const [subjectID, setSubjectID] = useState("");
+  const [isMyQuestions, setIsMyQuestions] = useState(false);  // State for toggling "My Questions"
   const toast = useToast();
   const {userRole} = useContext(AuthContext);
   const {userIdLogin} = useContext(AuthContext);
@@ -45,7 +45,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         Authorization: `Bearer ${authToken.access}`,
       },
     };
-    
     
 
     try {
@@ -68,7 +67,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
       setLoading(false);
     }
   };
-
   const handleFilterQuestions = async () => {
     setLoading(true);
     const config = {
@@ -76,7 +74,6 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         Authorization: `Bearer ${authToken.access}`,
       },
     };
-
     try {
       const response = await axios.post(
         `/proxy/roles/community/filterQuestions/`,
@@ -104,10 +101,8 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         Authorization: `Bearer ${authToken.access}`,
         "Content-Type": "application/json",
       },
-    };
-  
-    const payload = { qid, aid };
-  
+    }; 
+    const payload = { qid, aid }; 
     try {
       await axios.post(`/proxy/roles/community/verifiedAnswerForQuestions/`, payload, config);
       toast({
@@ -138,7 +133,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
       },
     };
 
-    const payload = { aid: aid, vote: 1 };
+    const payload = { qid: qid, vote: 1 };
 
     try {
       await axios.post(`/proxy/roles/community/scoreSection/`, payload, config);
@@ -161,26 +156,18 @@ const [editingQnAId, setEditingQnAId] = useState(null);
   };
   const handleAddAnswer = async (qid) => {
     const answerData = { answerName, qid };
-
     try {
-      console.log("Token:", authToken);
-
       const config = {
         headers: {
           Authorization: `Bearer ${authToken.access}`,
           "Content-Type": "application/json",
         },
       };
-
-     
       const answerResponse = await axios.post(
         `/proxy/roles/community/answers/create/`,
         answerData,
         config
       );
-
-
-      
       toast({
         title: "Answer Added",
         description: "Answer has been added successfully!",
@@ -189,10 +176,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         duration: 3000,
         isClosable: true,
       });
-
-      
       setAnswerName("");
-    
     } catch (error) {
       console.error(
         "Error adding answer:",
@@ -212,16 +196,14 @@ const [editingQnAId, setEditingQnAId] = useState(null);
     }
   };
 
-  const handleDownvote = async (qid) => {
+  const handleDownvote = async (aid) => {
     const config = {
       headers: {
         Authorization: `Bearer ${authToken.access}`,
         "Content-Type": "application/json",
       },
     };
-
-    const payload = { qid: qid, vote: 0 };
-
+    const payload = { aid: aid, vote: 0 };
     try {
       await axios.post(`/proxy/roles/community/scoreSection/`, payload, config);
       toast({
@@ -241,7 +223,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
       });
     }
   };
-
+  
   const handleDeleteQnA = async (id) => {
     const config = {
       headers: {
@@ -283,9 +265,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         "Content-Type": "application/json",
       },
     };
-
     const payload = { questionName: editedQuestionName };
-
     try {
       await axios.put(`/proxy/roles/community/questions/edit/${id}/`, payload, config);
       toast({
@@ -295,13 +275,11 @@ const [editingQnAId, setEditingQnAId] = useState(null);
         duration: 3000,
         isClosable: true,
       });
-
       setQnas((prevQnAs) =>
         prevQnAs.map((qna) =>
           qna.qid === id ? { ...qna, questionName: editedQuestionName } : qna
         )
       );
-
       setEditingQnAId(null); 
     } catch (error) {
       toast({
@@ -313,9 +291,16 @@ const [editingQnAId, setEditingQnAId] = useState(null);
       });
     }
   };
-  const filteredQnAs = qnas.filter((qna) =>
-    qna.questionName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredQnAs = qnas
+    .filter((qna) =>
+      qna.questionName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+        .filter((qna) => {
+          // Show only user's questions if "My Questions" is selected
+          if (isMyQuestions) return qna.user.id === userIdLogin;
+          return true; // Show all questions if "All Questions" is selected
+        })
+        
 
   useEffect(() => {
     fetchQnAs();
@@ -384,9 +369,7 @@ const [editingQnAId, setEditingQnAId] = useState(null);
           padding="6"
           borderRadius="md"
         />
-      </Flex>
-
-      <Button
+        <Button
         bg="blue.600"
         color="white"
         _hover={{ bg: "blue.700" }}
@@ -399,6 +382,22 @@ const [editingQnAId, setEditingQnAId] = useState(null);
       >
         Filter Questions
       </Button>
+      </Flex>
+      <Button
+        bg="blue.600"
+        color="white"
+        _hover={{ bg: "blue.700" }}
+        _active={{ bg: "blue.800" }}
+        onClick={() => setIsMyQuestions(!isMyQuestions)}
+        size="lg"
+        boxShadow="lg"
+        paddingX="8"
+        marginBottom={"6"}
+      >
+        {isMyQuestions ? "Show All Questions" : "My Questions"}
+      </Button>
+
+      
 
       {error && <Text color="red.500">{error}</Text>}
 
@@ -556,17 +555,33 @@ const [editingQnAId, setEditingQnAId] = useState(null);
                         )}
                       </Box>
                       {qna.verifiedAnswerID !== answer.aid && userRole !== "Student" && (
-                        <IconButton
-                          aria-label="Verify Answer"
-                          icon={<CheckIcon />}
-                          colorScheme="green"
-                          size="sm"
-                          onClick={() =>
-                            handleVerifyAnswer(qna.qid, answer.aid)
-                          }
-                          ml="4"
-                        />
-                      )}
+  <Flex direction="column" align="flex-start" mr="4">
+    <IconButton
+      aria-label="Verify Answer"
+      icon={<CheckIcon />}
+      colorScheme="green"
+      size="sm"
+      onClick={() => handleVerifyAnswer(qna.qid, answer.aid)}
+    />
+  </Flex>
+)}
+{/* 
+{answer.user.id === userIdLogin && (
+  <Flex direction="column" align="flex-start" mr="4">
+    <IconButton
+      aria-label="Edit Answer"
+      icon={<EditIcon />}
+      colorScheme="blue"
+      size="sm"
+      onClick={() => {
+        
+      }}
+      mb="2" 
+    />
+  </Flex>
+)} */}
+
+
                     </Flex>
                   </Box>
                 ))}
