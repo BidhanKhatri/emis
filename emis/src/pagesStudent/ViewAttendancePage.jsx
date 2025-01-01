@@ -16,29 +16,16 @@ import {
   Text,
   IconButton,
 } from "@chakra-ui/react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const ViewAttendancePage = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [subjectID, setSubjectID] = useState("");
   const [loading, setLoading] = useState(false);
-
   const { authToken } = useContext(AuthContext);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5; // Number of rows per page
+  const rowsPerPage = 5;
 
   const API_URL = "proxy/roles/attendance/getdata/";
 
@@ -53,7 +40,7 @@ const ViewAttendancePage = () => {
       });
 
       setAttendanceData(response.data.results || []);
-      setFilteredData(response.data.results || []); // Initialize filtered data
+      setFilteredData(response.data.results || []);
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     } finally {
@@ -67,7 +54,7 @@ const ViewAttendancePage = () => {
 
   const handleSearch = () => {
     if (!subjectID) {
-      setFilteredData(attendanceData); // Reset to all data if input is empty
+      setFilteredData(attendanceData);
     } else {
       const filtered = attendanceData.filter(
         (attendance) =>
@@ -77,45 +64,6 @@ const ViewAttendancePage = () => {
     }
   };
 
-  const prepareBarChartData = () => {
-    const subjects = [];
-    const presentCounts = [];
-    const absentCounts = [];
-
-    filteredData.forEach((attendance) => {
-      const subject = attendance.subject;
-      const present = attendance.records.filter(
-        (record) => record.status === "True"
-      ).length;
-      const absent = attendance.records.filter(
-        (record) => record.status === "False"
-      ).length;
-
-      if (!subjects.includes(subject)) {
-        subjects.push(subject);
-        presentCounts.push(present);
-        absentCounts.push(absent);
-      }
-    });
-
-    return {
-      labels: subjects,
-      datasets: [
-        {
-          label: "Present",
-          data: presentCounts,
-          backgroundColor: "green",
-        },
-        {
-          label: "Absent",
-          data: absentCounts,
-          backgroundColor: "red",
-        },
-      ],
-    };
-  };
-
-  // Handle Pagination
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
@@ -138,7 +86,6 @@ const ViewAttendancePage = () => {
 
   return (
     <Box p={{ base: 4, md: 6 }} flex="1" overflowY="auto">
-      {/* Header */}
       <Flex
         flexDirection={{ base: "column", md: "row" }}
         justifyContent="space-between"
@@ -148,7 +95,6 @@ const ViewAttendancePage = () => {
         <Text fontSize="lg" fontWeight="bold" color="blue.500">
           Attendance Records
         </Text>
-        {/* Search Bar */}
         <Flex flexDirection="row" alignItems="center" gap={2}>
           <Input
             placeholder="Enter Subject ID"
@@ -163,13 +109,7 @@ const ViewAttendancePage = () => {
         </Flex>
       </Flex>
 
-      {/* Main Content */}
-      <Flex
-        flexDirection={{ base: "column", lg: "row" }}
-        gap={6}
-        justifyContent="space-between"
-      >
-        {/* Attendance Table */}
+      <Flex flexDirection={{ base: "column", lg: "row" }} gap={6}>
         <Box flex="1" overflowX="auto">
           <Table variant="striped" colorScheme="gray">
             <Thead bg="blue.500">
@@ -216,7 +156,6 @@ const ViewAttendancePage = () => {
             </Tbody>
           </Table>
 
-          {/* Pagination Controls */}
           <Flex justifyContent="space-between" mt={4}>
             <IconButton
               icon={<ChevronLeftIcon />}
@@ -236,11 +175,6 @@ const ViewAttendancePage = () => {
             />
           </Flex>
         </Box>
-
-        {/* Attendance Bar Graph */}
-        {/* <Box flex="1">
-          <Bar data={prepareBarChartData()} />
-        </Box> */}
       </Flex>
     </Box>
   );
