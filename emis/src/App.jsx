@@ -26,6 +26,7 @@ import EditProfile from "./components/EditProfile";
 import ProfilePage from "./pagesTeacher/ProfilePage";
 import ListPermissionPage from "./pages/ListPermissionPage";
 import MyAssignmentPage from "./pagesTeacher/MyAssignmentPage";
+import ViewAttendancePage from "./pagesStudent/ViewAttendancePage";
 
 function App() {
   const { userRole, authToken } = useContext(AuthContext);
@@ -333,6 +334,14 @@ function App() {
           element={
             <PrivateRoute>
               <CreateQuestionPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/view-attendance"
+          element={
+            <PrivateRoute>
+              <ViewAttendancePage />
             </PrivateRoute>
           }
         />

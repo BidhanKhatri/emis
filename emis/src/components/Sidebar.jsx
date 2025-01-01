@@ -384,6 +384,14 @@ const Sidebar = () => {
                 </Link>
               </>
             )}
+              {userRole === "Student" && (
+              <Link
+                to="/view-attendance"
+                className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+              >
+                <FaUserTag className="mr-3" /> View Attendance
+              </Link>
+            )}
             {/* Links for Admin and Teacher Roles */}
             {["Admin", "Teacher"].includes(userRole) && (
               <>
