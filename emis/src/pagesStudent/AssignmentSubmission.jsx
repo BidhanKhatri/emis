@@ -65,11 +65,10 @@ const AssignmentSubmission = () => {
         isClosable: true,
       });
 
-      // Reset fields
       setAssignmentID("");
       setAttachment(null);
       if (fileInputRef.current) {
-        fileInputRef.current.value = ""; // Reset file input
+        fileInputRef.current.value = "";
       }
     } catch (error) {
       if (error.response?.status === 409) {
@@ -95,7 +94,6 @@ const AssignmentSubmission = () => {
           isClosable: true,
         });
       } else {
-        // General error handling
         toast({
           title: "Assignment Already Submitted",
           description: "You have already submitted this assignment.",
