@@ -178,6 +178,17 @@ const Sidebar = () => {
               </div>
             )}
 
+            {userRole === "Student" && (
+              <div>
+                <Link
+                  to="/view-assignment"
+                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                >
+                  <MdAssignmentTurnedIn className="mr-3" /> View Assignment
+                </Link>
+              </div>
+            )}
+
             {/* Admin-Only Links */}
             {userRole === "Admin" && (
               <>
