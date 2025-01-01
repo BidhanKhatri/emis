@@ -27,6 +27,7 @@ import ProfilePage from "./pagesTeacher/ProfilePage";
 import ListPermissionPage from "./pages/ListPermissionPage";
 import MyAssignmentPage from "./pagesTeacher/MyAssignmentPage";
 import ViewAttendancePage from "./pagesStudent/ViewAttendancePage";
+import AssignmentSubmission from "./pagesStudent/AssignmentSubmission";
 
 function App() {
   const { userRole, authToken } = useContext(AuthContext);
@@ -350,6 +351,14 @@ function App() {
           element={
             <PrivateRoute>
               <DisplayQnAPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/submit-assignment"
+          element={
+            <PrivateRoute>
+              <AssignmentSubmission />
             </PrivateRoute>
           }
         />

@@ -22,6 +22,7 @@ import {
   MdAnnouncement,
   MdAssignment,
   MdExitToApp,
+  MdAssignmentTurnedIn,
 } from "react-icons/md";
 import { AiOutlineNotification } from "react-icons/ai";
 import { FiBell, FiX } from "react-icons/fi";
@@ -165,6 +166,16 @@ const Sidebar = () => {
                   <MdAddAlert className="mr-3" /> My Assignment
                 </Link>
               </>
+            )}
+            {userRole === "Student" && (
+              <div>
+                <Link
+                  to="/submit-assignment"
+                  className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
+                >
+                  <MdAssignmentTurnedIn className="mr-3" /> Submit Assignment
+                </Link>
+              </div>
             )}
 
             {/* Admin-Only Links */}
@@ -384,7 +395,7 @@ const Sidebar = () => {
                 </Link>
               </>
             )}
-              {userRole === "Student" && (
+            {userRole === "Student" && (
               <Link
                 to="/view-attendance"
                 className="flex items-center hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-colors"
