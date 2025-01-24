@@ -44,13 +44,7 @@ function LoginPage() {
       </div>
 
       {/* Right Section: Form */}
-      <div
-        className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 lg:p-12 mix-blend-plus-darker bg-no-repeat bg-cover"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundPosition: "center",
-        }}
-      >
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 lg:p-12 mix-blend-plus-darker bg-no-repeat bg-cover">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Sign In to EMIS
         </h2>

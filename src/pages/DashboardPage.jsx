@@ -69,6 +69,7 @@ const DashboardPage = () => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
       setError("Failed to load complaints.");
     } finally {
@@ -104,6 +105,7 @@ const DashboardPage = () => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     }
   };
